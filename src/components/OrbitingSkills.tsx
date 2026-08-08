@@ -141,7 +141,7 @@ export const OrbitingSkills: React.FC<OrbitingSkillsProps> = ({
             <img
               src={profileImage}
               alt={name}
-              className="w-full h-full object-cover rounded-2xl filter contrast-105 group-hover:scale-105 transition-transform duration-700"
+              className="w-full h-full object-cover object-top rounded-2xl filter contrast-105 group-hover:scale-105 transition-transform duration-700"
             />
             {/* Glossy Sheen & Shadow overlays */}
             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/15 to-transparent pointer-events-none" />
