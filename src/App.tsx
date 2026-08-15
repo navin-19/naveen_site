@@ -46,7 +46,10 @@ export function App() {
       {/* Main Content Layout */}
       <main className="relative z-10">
         {/* Hero Section with Skill Orbit Ring */}
-        <HeroSection onSelectSkill={(skill) => setSelectedSkill(skill)} />
+        <HeroSection
+          onSelectSkill={(skill) => setSelectedSkill(skill)}
+          activeSection={activeSection}
+        />
 
         {/* About Section with Metrics */}
         <AboutSection />

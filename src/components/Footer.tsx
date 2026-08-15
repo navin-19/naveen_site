@@ -8,6 +8,7 @@ export const Footer: React.FC = () => {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.dispatchEvent(new CustomEvent('trigger-home-bounce'));
   };
 
   return (
@@ -32,7 +33,11 @@ export const Footer: React.FC = () => {
 
         {/* Quick Nav Links */}
         <div className="flex flex-wrap justify-center gap-6 text-xs text-gray-400 font-medium">
-          <a href="#home" className="hover:text-cyan-400 transition-colors">
+          <a
+            href="#home"
+            onClick={() => window.dispatchEvent(new CustomEvent('trigger-home-bounce'))}
+            className="hover:text-cyan-400 transition-colors"
+          >
             Home
           </a>
           <a href="#about" className="hover:text-cyan-400 transition-colors">
@@ -60,7 +65,7 @@ export const Footer: React.FC = () => {
               target="_blank"
               rel="noreferrer"
               aria-label="GitHub"
-              className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+              className="w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center transition-all duration-300 hover:scale-110"
             >
               <GithubIcon className="w-4 h-4" />
             </a>
@@ -69,7 +74,7 @@ export const Footer: React.FC = () => {
               target="_blank"
               rel="noreferrer"
               aria-label="LinkedIn"
-              className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-cyan-400 transition-colors"
+              className="w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-cyan-400 flex items-center justify-center transition-all duration-300 hover:scale-110"
             >
               <LinkedinIcon className="w-4 h-4" />
             </a>
@@ -78,14 +83,14 @@ export const Footer: React.FC = () => {
               target="_blank"
               rel="noreferrer"
               aria-label="Instagram"
-              className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-purple-400 transition-colors"
+              className="w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-purple-400 flex items-center justify-center transition-all duration-300 hover:scale-110"
             >
               <InstagramIcon className="w-4 h-4" />
             </a>
             <a
               href={user.socials.email}
               aria-label="Email"
-              className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-blue-400 transition-colors"
+              className="w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-blue-400 flex items-center justify-center transition-all duration-300 hover:scale-110"
             >
               <Mail className="w-4 h-4" />
             </a>
