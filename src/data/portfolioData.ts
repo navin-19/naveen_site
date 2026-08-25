@@ -1,6 +1,10 @@
 import profileImg from '../assets/profile.png';
 import project1Img from '../assets/project1.png';
 import project2Img from '../assets/project2.png';
+import gallery1Img from '../assets/gallery1.jpg';
+import gallery2Img from '../assets/gallery2.jpg';
+import gallery3Img from '../assets/gallery3.jpg';
+import gallery4Img from '../assets/gallery4.jpg';
 
 export interface SkillItem {
   id: string;
@@ -31,6 +35,14 @@ export interface ProjectItem {
   githubUrl?: string;
   featured: boolean;
   metrics?: { label: string; value: string }[];
+}
+
+export interface GalleryItem {
+  id: string;
+  title: string;
+  image: string;
+  category: string;
+  caption: string;
 }
 
 export interface ExperienceItem {
@@ -72,6 +84,7 @@ export interface PortfolioData {
   skills: SkillItem[];
   projects: ProjectItem[];
   experiences: ExperienceItem[];
+  gallery: GalleryItem[];
 }
 
 export const portfolioData: PortfolioData = {
@@ -82,19 +95,19 @@ export const portfolioData: PortfolioData = {
     shortBio: "Crafting bulletproof, high-performance web applications and autonomous AI-driven automation frameworks with sleek Apple-inspired UI and glassmorphism design.",
     longBio: "With over 6+ years of expertise in software architecture, enterprise web development, and end-to-end quality engineering, I bridge the gap between pixel-perfect frontend interfaces and resilient, scalable microservices. Driven by futuristic design and clean code practices.",
     location: "Bengaluru, India / Remote Worldwide",
-    email: "naveen.engineer.dev@gmail.com",
+    email: "naveen.boomi019@gmail.com",
     availability: "Available for High-Impact Projects & Consulting",
     resumeUrl: "#resume",
     profileImage: profileImg,
     socials: {
-      github: "https://github.com",
-      linkedin: "https://linkedin.com",
+      github: "https://github.com/navin-19",
+      linkedin: "https://www.linkedin.com/in/naveen-boomi019?utm_source=share_via&utm_content=profile&utm_medium=member_android",
       instagram: "https://instagram.com",
-      email: "mailto:naveen.engineer.dev@gmail.com",
+      email: "naveen.boomi019@gmail.com",
     },
   },
   stats: {
-    yearsExp: "6+",
+    yearsExp: "2+",
     projectsCompleted: "45+",
     automationRate: "99.8%",
     techStackCount: "16+",
@@ -106,7 +119,7 @@ export const portfolioData: PortfolioData = {
       category: "Frontend",
       icon: "Code2",
       level: 95,
-      yearsOfExp: 5,
+      yearsOfExp: 3,
       description: "Mastery of modern React 19 architecture, custom hooks, Server Components, Concurrent Mode, State Management (Zustand, Redux Toolkit), and Framer Motion visual choreography.",
       color: "from-cyan-500 to-blue-500",
       borderColor: "#06B6D4",
@@ -121,7 +134,7 @@ export const portfolioData: PortfolioData = {
       category: "Backend",
       icon: "Terminal",
       level: 92,
-      yearsOfExp: 6,
+      yearsOfExp: 3,
       description: "Expert in Python backend architecture, async asyncio workflows, FastAPI microservices, automated testing frameworks, and AI data processing pipelines.",
       color: "from-blue-500 to-yellow-500",
       borderColor: "#3B82F6",
@@ -136,7 +149,7 @@ export const portfolioData: PortfolioData = {
       category: "Automation",
       icon: "Bot",
       level: 90,
-      yearsOfExp: 5,
+      yearsOfExp: 3,
       description: "Building scalable distributed Selenium Grid infrastructure, custom Page Object Models, parallel cross-browser execution engines, and automated visual regression checking.",
       color: "from-green-500 to-cyan-500",
       borderColor: "#10B981",
@@ -151,7 +164,7 @@ export const portfolioData: PortfolioData = {
       category: "Automation",
       icon: "Cpu",
       level: 94,
-      yearsOfExp: 4,
+      yearsOfExp: 2,
       description: "Modern E2E automation with Microsoft Playwright TypeScript & Python bindings, auto-waiting reliability, API request mocking, trace viewer diagnostics, and CI execution.",
       color: "from-red-500 to-orange-500",
       borderColor: "#F97316",
@@ -166,7 +179,7 @@ export const portfolioData: PortfolioData = {
       category: "Frontend",
       icon: "FileCode",
       level: 96,
-      yearsOfExp: 6,
+      yearsOfExp: 3,
       description: "Core JavaScript ESNext expert, event loops, DOM performance optimization, custom web APIs, Canvas rendering engines, and asynchronous control flow.",
       color: "from-yellow-400 to-amber-600",
       borderColor: "#F59E0B",
@@ -181,7 +194,7 @@ export const portfolioData: PortfolioData = {
       category: "Frontend",
       icon: "ShieldCheck",
       level: 94,
-      yearsOfExp: 5,
+      yearsOfExp: 2,
       description: "Strict static typing architect, advanced generic utilities, type-safe API contracts with Zod/tRPC, strict linting, and compile-time defect elimination.",
       color: "from-blue-600 to-indigo-600",
       borderColor: "#2563EB",
@@ -211,7 +224,7 @@ export const portfolioData: PortfolioData = {
       category: "DevOps & Cloud",
       icon: "Container",
       level: 86,
-      yearsOfExp: 4,
+      yearsOfExp: 2,
       description: "Containerization mastery, multi-stage Docker builds, docker-compose local dev orchestration, security hardening, and image size optimization for microservices.",
       color: "from-cyan-600 to-blue-700",
       borderColor: "#0284C7",
@@ -241,7 +254,7 @@ export const portfolioData: PortfolioData = {
       category: "DevOps & Cloud",
       icon: "Cloud",
       level: 84,
-      yearsOfExp: 4,
+      yearsOfExp: 2,
       description: "Cloud infrastructure provisioning including EC2, ECS, Lambda serverless, S3 storage, CloudFront CDN, IAM security policies, and CloudWatch metrics monitoring.",
       color: "from-amber-500 to-orange-600",
       borderColor: "#FF9900",
@@ -363,5 +376,49 @@ export const portfolioData: PortfolioData = {
       ],
       techStack: ["JavaScript", "React", "Python", "CSS3/HTML5", "REST APIs"]
     }
-  ]
+  ],
+  gallery: [
+    {
+      id: "gallery-1",
+      title: "Aether Analytics Dashboard",
+      image: gallery1Img,
+      category: "Data Visualization",
+      caption: "Real-time global traffic monitoring dashboard with WebSocket telemetry, predictive analytics, and holographic cluster topology maps.",
+    },
+    {
+      id: "gallery-2",
+      title: "Aether Mobile Finance App",
+      image: gallery2Img,
+      category: "Mobile UI Design",
+      caption: "Glassmorphism-first fintech app with portfolio tracking, live crypto data, and an Apple-inspired dark theme with frosted glass cards.",
+    },
+    {
+      id: "gallery-3",
+      title: "Neural OS — Dev Environment",
+      image: gallery3Img,
+      category: "Developer Tooling",
+      caption: "AI-powered code editor with neural syntax analysis, live terminal, holographic circuit-board overlays, and integrated system metrics.",
+    },
+    {
+      id: "gallery-4",
+      title: "Astria — Luxury E-Commerce",
+      image: gallery4Img,
+      category: "E-Commerce",
+      caption: "Premium product showcase built with 3D render integration, frosted glass cards, immersive ambient lighting, and a smooth purchase flow.",
+    },
+    {
+      id: "gallery-5",
+      title: "OmniTest QA Platform",
+      image: project1Img,
+      category: "Automation",
+      caption: "Self-healing E2E test orchestration platform — parallel Playwright grid, visual AI regression, and interactive HTML5 report portal.",
+    },
+    {
+      id: "gallery-6",
+      title: "Cloud Sentinel Hub",
+      image: project2Img,
+      category: "Cloud / DevOps",
+      caption: "Futuristic microservice monitoring console with sub-50ms WebSocket push, glassmorphism node graphs, and automated alert routing.",
+    },
+  ],
 };

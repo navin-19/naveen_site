@@ -62,7 +62,7 @@ export const Footer: React.FC = () => {
           <div className="flex items-center gap-2">
             <a
               href={user.socials.github}
-              target="_blank"
+              target="https://github.com/navin-19"
               rel="noreferrer"
               aria-label="GitHub"
               className="w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center transition-all duration-300 hover:scale-110"
@@ -71,7 +71,7 @@ export const Footer: React.FC = () => {
             </a>
             <a
               href={user.socials.linkedin}
-              target="_blank"
+              target="https://www.linkedin.com/in/naveen-boomi019?utm_source=share_via&utm_content=profile&utm_medium=member_android"
               rel="noreferrer"
               aria-label="LinkedIn"
               className="w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-cyan-400 flex items-center justify-center transition-all duration-300 hover:scale-110"
@@ -89,7 +89,7 @@ export const Footer: React.FC = () => {
             </a>
             <a
               href={user.socials.email}
-              aria-label="Email"
+              aria-label="naveen.boomi019@gamil.com"
               className="w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-blue-400 flex items-center justify-center transition-all duration-300 hover:scale-110"
             >
               <Mail className="w-4 h-4" />
@@ -107,7 +107,7 @@ export const Footer: React.FC = () => {
       </div>
 
       <div className="max-w-6xl mx-auto pt-6 border-t border-white/5 text-center text-xs text-gray-500 font-mono">
-        © {new Date().getFullYear()} Naveen Kumar. All rights reserved. Powered by React, Vite, Framer Motion & Tailwind CSS.
+        © {new Date().getFullYear()} Naveen Kumar. All rights reserved.
       </div>
     </footer>
   );

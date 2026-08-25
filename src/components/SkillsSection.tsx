@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useRef } from 'react';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { portfolioData } from '../data/portfolioData';
 import type { SkillItem } from '../data/portfolioData';
 import {
@@ -39,6 +39,24 @@ const categories = ['All', 'Frontend', 'Backend', 'Automation', 'DevOps & Cloud'
 
 export const SkillsSection: React.FC<SkillsSectionProps> = ({ onSelectSkill }) => {
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const sectionRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+
+  const orbY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    prefersReducedMotion ? ['0%', '0%'] : ['5%', '-20%']
+  );
+  const orbY2 = useTransform(
+    scrollYProgress,
+    [0, 1],
+    prefersReducedMotion ? ['0%', '0%'] : ['-5%', '20%']
+  );
 
   const filteredSkills =
     selectedCategory === 'All'
@@ -46,7 +64,16 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ onSelectSkill }) =
       : portfolioData.skills.filter((s) => s.category === selectedCategory);
 
   return (
-    <section id="skills" className="py-24 relative px-4 sm:px-8 z-10">
+    <section id="skills" className="py-24 relative px-4 sm:px-8 z-10" ref={sectionRef}>
+      {/* Parallax background glow orbs */}
+      <motion.div
+        className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-500/6 rounded-full blur-[150px] pointer-events-none"
+        style={{ y: orbY, willChange: 'transform' }}
+      />
+      <motion.div
+        className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-cyan-500/6 rounded-full blur-[150px] pointer-events-none"
+        style={{ y: orbY2, willChange: 'transform' }}
+      />
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">

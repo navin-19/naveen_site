@@ -8,6 +8,7 @@ import { SkillModal } from './components/SkillModal';
 import { AboutSection } from './components/AboutSection';
 import { SkillsSection } from './components/SkillsSection';
 import { ProjectsSection } from './components/ProjectsSection';
+import { GallerySection } from './components/GallerySection';
 import { ExperienceSection } from './components/ExperienceSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
@@ -59,6 +60,9 @@ export function App() {
 
         {/* Projects Section with Detail Modals */}
         <ProjectsSection />
+
+        {/* Design Gallery with 3D Tilt Cards & Lightbox */}
+        <GallerySection />
 
         {/* Career Experience Timeline */}
         <ExperienceSection />

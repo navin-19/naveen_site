@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { portfolioData } from '../data/portfolioData';
 import type { SkillItem } from '../data/portfolioData';
 import { ProfileIdCard } from './ProfileIdCard';
@@ -20,6 +20,22 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ activeSection }) => {
   const { user } = portfolioData;
+  const sectionRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  });
+
+  // Parallax: background moves at ~50% rate of scroll (0 → 50% down)
+  // Mobile gets a smaller range (0 → 20%) to prevent layout jank
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const bgParallaxEnd = prefersReducedMotion ? '0%' : isMobile ? '20%' : '50%';
+  const glowParallaxEnd = prefersReducedMotion ? '0%' : isMobile ? '10%' : '25%';
+
+  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', bgParallaxEnd]);
+  const glowY = useTransform(scrollYProgress, [0, 1], ['0%', glowParallaxEnd]);
 
   const handleDownloadResume = () => {
     const blob = new Blob([
@@ -37,10 +53,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ activeSection }) => {
   return (
     <section
       id="home"
+      ref={sectionRef}
       className="relative min-h-screen pt-28 pb-16 sm:pt-36 flex items-center justify-center overflow-hidden px-4 sm:px-8"
     >
-      {/* Full-screen Home Page Atmospheric Background Profile Overlay */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+      {/* Full-screen Home Page Atmospheric Background Profile Overlay — parallax layer */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none overflow-hidden z-0"
+        style={{ y: bgY, willChange: 'transform' }}
+      >
         <div
           className="absolute -top-1/4 -right-1/4 w-[140%] h-[140%] opacity-[0.08] blur-3xl scale-125 pointer-events-none bg-cover bg-center filter saturate-200"
           style={{ backgroundImage: `url(${user.profileImage})` }}
@@ -55,11 +75,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ activeSection }) => {
             backgroundSize: '32px 32px'
           }}
         />
-      </div>
+      </motion.div>
 
-      {/* Ambient radial glow spots */}
-      <div className="absolute top-1/4 left-1/4 w-[450px] h-[450px] bg-cyan-500/15 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" />
-      <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] bg-purple-500/15 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" />
+      {/* Ambient radial glow spots — subtle parallax */}
+      <motion.div
+        className="absolute top-1/4 left-1/4 w-[450px] h-[450px] bg-cyan-500/15 rounded-full blur-[140px] pointer-events-none animate-pulse-glow"
+        style={{ y: glowY, willChange: 'transform' }}
+      />
+      <motion.div
+        className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] bg-purple-500/15 rounded-full blur-[140px] pointer-events-none animate-pulse-glow"
+        style={{ y: glowY, willChange: 'transform' }}
+      />
 
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center justify-items-center z-10">
         {/* Left Side Column - Centered on Mobile/Tablet */}

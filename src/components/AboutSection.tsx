@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { portfolioData } from '../data/portfolioData';
 import {
   UserCheck,
@@ -13,6 +13,24 @@ import {
 
 export const AboutSection: React.FC = () => {
   const { user, stats } = portfolioData;
+  const sectionRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+
+  const orbY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    prefersReducedMotion ? ['0%', '0%'] : ['10%', '-15%']
+  );
+  const orbY2 = useTransform(
+    scrollYProgress,
+    [0, 1],
+    prefersReducedMotion ? ['0%', '0%'] : ['-10%', '15%']
+  );
 
   const statCards = [
     { label: 'Years Experience', value: stats.yearsExp, icon: <Award className="w-6 h-6 text-cyan-400" /> },
@@ -29,7 +47,16 @@ export const AboutSection: React.FC = () => {
   ];
 
   return (
-    <section id="about" className="py-24 relative px-4 sm:px-8 z-10">
+    <section id="about" className="py-24 relative px-4 sm:px-8 z-10" ref={sectionRef}>
+      {/* Parallax background glow orbs */}
+      <motion.div
+        className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-cyan-500/8 rounded-full blur-[120px] pointer-events-none"
+        style={{ y: orbY, willChange: 'transform' }}
+      />
+      <motion.div
+        className="absolute -bottom-32 -right-32 w-[400px] h-[400px] bg-purple-500/8 rounded-full blur-[120px] pointer-events-none"
+        style={{ y: orbY2, willChange: 'transform' }}
+      />
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
