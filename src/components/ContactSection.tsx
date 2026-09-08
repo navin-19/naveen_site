@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
-import { portfolioData } from '../data/portfolioData';
+import { personalInfo } from '../data/personalInfo';
+import { GithubIcon, LinkedinIcon } from './SocialIcons';
 import {
   Mail,
   Send,
   Copy,
   Check,
   MapPin,
-  Calendar,
   MessageSquare,
   Sparkles,
+  Phone,
   Clock,
+  ArrowRight,
 } from 'lucide-react';
 
 export const ContactSection: React.FC = () => {
-  const { user } = portfolioData;
-
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -35,7 +35,7 @@ export const ContactSection: React.FC = () => {
   };
 
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText(user.email);
+    navigator.clipboard.writeText(personalInfo.email);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   };
@@ -46,30 +46,43 @@ export const ContactSection: React.FC = () => {
 
     setIsSubmitting(true);
 
-    // Simulate submission delay
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitted(true);
 
       // Trigger celebration confetti
       confetti({
-        particleCount: 100,
-        spread: 70,
+        particleCount: 120,
+        spread: 80,
         origin: { y: 0.6 },
-        colors: ['#06B6D4', '#3B82F6', '#8B5CF6'],
+        colors: ['#06B6D4', '#3B82F6', '#8B5CF6', '#10B981'],
       });
+
+      // Construct mailto fallback
+      const mailtoUrl = `mailto:${personalInfo.email}?subject=${encodeURIComponent(
+        formData.subject || 'Portfolio Inquiry from ' + formData.name
+      )}&body=${encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+      )}`;
+      window.location.href = mailtoUrl;
 
       // Reset form after delay
       setTimeout(() => {
         setFormData({ name: '', email: '', subject: '', message: '' });
         setSubmitted(false);
       }, 5000);
-    }, 1200);
+    }, 1000);
   };
 
   return (
-    <section id="contact" className="py-24 relative px-4 sm:px-8 z-10">
-      <div className="max-w-6xl mx-auto">
+    <section
+      id="contact"
+      className="py-24 relative px-4 sm:px-8 z-10 border-t border-white/[0.04]"
+    >
+      {/* Subtle Ambient Glow Spotlights */}
+      <div className="absolute top-1/4 -left-20 w-[420px] h-[420px] bg-cyan-500/8 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-10 -right-20 w-[420px] h-[420px] bg-purple-500/8 rounded-full blur-[140px] pointer-events-none" />
+      <div className="max-w-6xl mx-auto relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <motion.div
@@ -89,25 +102,25 @@ export const ContactSection: React.FC = () => {
             transition={{ delay: 0.1 }}
             className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight"
           >
-            Let's Build Something <span className="text-gradient-cyan">Exceptional</span>
+            Let's Discuss <span className="text-gradient-cyan">Your Next Project</span>
           </motion.h2>
           <p className="text-gray-400 text-sm sm:text-base mt-3">
-            Have a project in mind, automation challenges, or technical queries? Drop a message below.
+            Open for full-time QA Automation, SDET, and Python Developer roles. Feel free to reach out directly.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          {/* Left Column - Contact Info Cards */}
+          {/* Left Column - Contact Info Glass Cards */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-5 space-y-6"
+            className="lg:col-span-5 space-y-5"
           >
-            {/* Direct Email Card */}
+            {/* Direct Email Card with Copy Button */}
             <div className="glass-card p-6 rounded-3xl border border-white/10 relative overflow-hidden group">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
+                <div className="p-3 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 group-hover:scale-110 transition-transform">
                   <Mail className="w-6 h-6" />
                 </div>
                 <button
@@ -122,55 +135,98 @@ export const ContactSection: React.FC = () => {
                   ) : (
                     <>
                       <Copy className="w-3.5 h-3.5" />
-                      <span>Copy Email</span>
+                      <span>Copy</span>
                     </>
                   )}
                 </button>
               </div>
 
-              <span className="text-xs text-gray-400 font-medium block mb-1">Direct Email</span>
+              <span className="text-xs text-gray-400 font-medium block mb-1">Email Address</span>
               <a
-                href={`mailto:${user.email}`}
-                className="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors"
+                href={personalInfo.socials.email}
+                className="text-base sm:text-lg font-bold text-white group-hover:text-cyan-300 transition-colors block break-all"
               >
-                {user.email}
+                {personalInfo.email}
               </a>
             </div>
 
-            {/* Location & Availability */}
+            {/* Direct Phone Card */}
+            <div className="glass-card p-6 rounded-3xl border border-white/10 relative overflow-hidden group">
+              <div className="flex items-center justify-between mb-4">
+                <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 group-hover:scale-110 transition-transform">
+                  <Phone className="w-6 h-6" />
+                </div>
+                <span className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+                  Direct Line
+                </span>
+              </div>
+
+              <span className="text-xs text-gray-400 font-medium block mb-1">Phone / WhatsApp</span>
+              <a
+                href={personalInfo.socials.phone}
+                className="text-lg font-bold text-white group-hover:text-emerald-300 transition-colors block font-mono"
+              >
+                {personalInfo.phone}
+              </a>
+            </div>
+
+            {/* Location & Availability Status */}
             <div className="glass-card p-6 rounded-3xl border border-white/10 space-y-4">
               <div className="flex items-center gap-3">
                 <div className="p-3 rounded-2xl bg-purple-500/10 border border-purple-500/20 text-purple-400">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="text-xs text-gray-400 block">Base Location</span>
-                  <span className="text-sm font-semibold text-white">{user.location}</span>
+                  <span className="text-xs text-gray-400 block">Location</span>
+                  <span className="text-sm font-semibold text-white">{personalInfo.location}</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-3 pt-3 border-t border-white/5">
-                <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+                <div className="p-3 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
                   <Clock className="w-5 h-5" />
                 </div>
                 <div>
                   <span className="text-xs text-gray-400 block">Current Status</span>
-                  <span className="text-sm font-semibold text-emerald-300">{user.availability}</span>
+                  <span className="text-sm font-semibold text-cyan-300">{personalInfo.availability}</span>
                 </div>
               </div>
             </div>
 
-            {/* Schedule Call Pill */}
-            <div className="glass-panel p-6 rounded-3xl border border-cyan-500/30 text-center relative overflow-hidden">
-              <Sparkles className="w-6 h-6 text-cyan-400 mx-auto mb-2" />
-              <h4 className="text-base font-bold text-white mb-1">Need Immediate Consultation?</h4>
-              <p className="text-xs text-gray-400 mb-4">Book a 30-min technical discovery call directly.</p>
+            {/* Social Handles Grid */}
+            <div className="grid grid-cols-2 gap-3">
               <a
-                href={`mailto:${user.email}?subject=Consultation%20Request`}
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-cyan-500/20 border border-cyan-400/40 text-xs font-semibold text-cyan-300 hover:bg-cyan-500/30 transition-all"
+                href={personalInfo.socials.github}
+                target="_blank"
+                rel="noreferrer"
+                className="glass-card p-4 rounded-2xl border border-white/10 hover:border-white/30 flex items-center gap-3 group transition-all"
               >
-                <Calendar className="w-4 h-4" />
-                <span>Schedule a Meeting</span>
+                <div className="p-2 rounded-xl bg-white/5 text-gray-300 group-hover:text-white">
+                  <GithubIcon className="w-5 h-5" />
+                </div>
+                <div>
+                  <span className="text-[10px] text-gray-400 block">GitHub</span>
+                  <span className="text-xs font-bold text-white group-hover:text-cyan-300 transition-colors">
+                    navin-19
+                  </span>
+                </div>
+              </a>
+
+              <a
+                href={personalInfo.socials.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="glass-card p-4 rounded-2xl border border-white/10 hover:border-cyan-500/40 flex items-center gap-3 group transition-all"
+              >
+                <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-400">
+                  <LinkedinIcon className="w-5 h-5" />
+                </div>
+                <div>
+                  <span className="text-[10px] text-gray-400 block">LinkedIn</span>
+                  <span className="text-xs font-bold text-white group-hover:text-cyan-300 transition-colors">
+                    Naveenkumar
+                  </span>
+                </div>
               </a>
             </div>
           </motion.div>
@@ -191,15 +247,22 @@ export const ContactSection: React.FC = () => {
                 <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 mb-4 shadow-[0_0_30px_rgba(16,185,129,0.3)]">
                   <Check className="w-8 h-8" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2">Message Received!</h3>
+                <h3 className="text-2xl font-bold text-white mb-2">Message Initiated!</h3>
                 <p className="text-gray-300 text-sm max-w-md">
-                  Thank you for getting in touch. I'll review your query and respond within 24 hours.
+                  Your mail client has been opened with your inquiry. I will get back to you promptly!
                 </p>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <Sparkles className="w-4 h-4 text-cyan-400" />
+                  <span className="text-sm font-bold text-white uppercase tracking-wider">
+                    Send Direct Message
+                  </span>
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {/* Name Input */}
+                  {/* Name */}
                   <div>
                     <label className="block text-xs font-medium text-gray-300 mb-2">
                       Your Name <span className="text-cyan-400">*</span>
@@ -215,7 +278,7 @@ export const ContactSection: React.FC = () => {
                     />
                   </div>
 
-                  {/* Email Input */}
+                  {/* Email */}
                   <div>
                     <label className="block text-xs font-medium text-gray-300 mb-2">
                       Your Email Address <span className="text-cyan-400">*</span>
@@ -232,7 +295,7 @@ export const ContactSection: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Subject Input */}
+                {/* Subject */}
                 <div>
                   <label className="block text-xs font-medium text-gray-300 mb-2">
                     Subject
@@ -242,12 +305,12 @@ export const ContactSection: React.FC = () => {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    placeholder="Project Inquiry / Hiring / Automation Project"
+                    placeholder="QA Automation / Python Development Opportunity"
                     className="w-full px-4 py-3 rounded-2xl bg-black/40 border border-white/10 text-white placeholder-gray-500 text-sm focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all"
                   />
                 </div>
 
-                {/* Message Input */}
+                {/* Message */}
                 <div>
                   <label className="block text-xs font-medium text-gray-300 mb-2">
                     Message <span className="text-cyan-400">*</span>
@@ -258,7 +321,7 @@ export const ContactSection: React.FC = () => {
                     rows={4}
                     value={formData.message}
                     onChange={handleChange}
-                    placeholder="Describe your project, timeline, or objectives..."
+                    placeholder="Describe your project, position requirements, or inquiry..."
                     className="w-full px-4 py-3 rounded-2xl bg-black/40 border border-white/10 text-white placeholder-gray-500 text-sm focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all resize-none"
                   />
                 </div>
@@ -275,6 +338,7 @@ export const ContactSection: React.FC = () => {
                     <>
                       <Send className="w-4 h-4" />
                       <span>Send Message</span>
+                      <ArrowRight className="w-4 h-4" />
                     </>
                   )}
                 </button>

@@ -1,25 +1,25 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
-import { portfolioData } from '../data/portfolioData';
-import type { SkillItem } from '../data/portfolioData';
+import confetti from 'canvas-confetti';
+import { personalInfo } from '../data/personalInfo';
 import { ProfileIdCard } from './ProfileIdCard';
-import { GithubIcon, LinkedinIcon, InstagramIcon } from './SocialIcons';
+import { GithubIcon, LinkedinIcon } from './SocialIcons';
 import {
   Download,
   FolderKanban,
   Mail,
   Sparkles,
   ArrowRight,
-  Shield,
+  Phone,
+  ShieldCheck,
+  Code2,
 } from 'lucide-react';
 
 interface HeroSectionProps {
-  onSelectSkill: (skill: SkillItem) => void;
   activeSection?: string;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ activeSection }) => {
-  const { user } = portfolioData;
   const sectionRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
 
@@ -28,26 +28,29 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ activeSection }) => {
     offset: ['start start', 'end start'],
   });
 
-  // Parallax: background moves at ~50% rate of scroll (0 → 50% down)
-  // Mobile gets a smaller range (0 → 20%) to prevent layout jank
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  const bgParallaxEnd = prefersReducedMotion ? '0%' : isMobile ? '20%' : '50%';
+  const bgParallaxEnd = prefersReducedMotion ? '0%' : isMobile ? '15%' : '40%';
   const glowParallaxEnd = prefersReducedMotion ? '0%' : isMobile ? '10%' : '25%';
 
   const bgY = useTransform(scrollYProgress, [0, 1], ['0%', bgParallaxEnd]);
   const glowY = useTransform(scrollYProgress, [0, 1], ['0%', glowParallaxEnd]);
 
+  // Confetti burst on "Download Resume" action
   const handleDownloadResume = () => {
-    const blob = new Blob([
-      `NAVEEN KUMAR - RESUME\n\nTitle: ${user.title}\nEmail: ${user.email}\nLocation: ${user.location}\n\nSummary:\n${user.longBio}\n\nKey Skills:\nReact, Python, Playwright, Selenium, TypeScript, FastAPI, Docker, AWS, GitHub Actions.`,
-    ], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'Naveen_Kumar_Resume.txt';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    confetti({
+      particleCount: 120,
+      spread: 80,
+      origin: { y: 0.6 },
+      colors: ['#06B6D4', '#3B82F6', '#8B5CF6', '#10B981'],
+    });
+
+    const link = document.createElement('a');
+    link.href = personalInfo.resumeUrl;
+    link.download = 'Naveen_Kumar_Resume.pdf';
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -56,39 +59,30 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ activeSection }) => {
       ref={sectionRef}
       className="relative min-h-screen pt-28 pb-16 sm:pt-36 flex items-center justify-center overflow-hidden px-4 sm:px-8"
     >
-      {/* Full-screen Home Page Atmospheric Background Profile Overlay — parallax layer */}
+      {/* Soft Ambient Hero Glow Layers */}
       <motion.div
         className="absolute inset-0 pointer-events-none overflow-hidden z-0"
         style={{ y: bgY, willChange: 'transform' }}
       >
         <div
-          className="absolute -top-1/4 -right-1/4 w-[140%] h-[140%] opacity-[0.08] blur-3xl scale-125 pointer-events-none bg-cover bg-center filter saturate-200"
-          style={{ backgroundImage: `url(${user.profileImage})` }}
+          className="absolute -top-1/4 -right-1/4 w-[120%] h-[120%] opacity-[0.04] blur-3xl scale-125 pointer-events-none bg-cover bg-center filter saturate-200"
+          style={{ backgroundImage: `url(${personalInfo.profileImage})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0B0B0F]/70 via-[#0B0B0F]/90 to-[#0B0B0F]" />
-        
-        {/* Subtle Cyber Grid Lines Effect */}
-        <div 
-          className="absolute inset-0 opacity-[0.04] pointer-events-none"
-          style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.4) 1px, transparent 0)`,
-            backgroundSize: '32px 32px'
-          }}
-        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0B0B0F]/30 to-[#0B0B0F]/80 pointer-events-none" />
       </motion.div>
 
-      {/* Ambient radial glow spots — subtle parallax */}
+      {/* Hero Ambient Radial Spotlights */}
       <motion.div
-        className="absolute top-1/4 left-1/4 w-[450px] h-[450px] bg-cyan-500/15 rounded-full blur-[140px] pointer-events-none animate-pulse-glow"
+        className="absolute top-1/4 left-1/4 w-[420px] h-[420px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none animate-pulse-glow"
         style={{ y: glowY, willChange: 'transform' }}
       />
       <motion.div
-        className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] bg-purple-500/15 rounded-full blur-[140px] pointer-events-none animate-pulse-glow"
+        className="absolute bottom-1/4 right-1/4 w-[420px] h-[420px] bg-purple-500/10 rounded-full blur-[140px] pointer-events-none animate-pulse-glow"
         style={{ y: glowY, willChange: 'transform' }}
       />
 
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center justify-items-center z-10">
-        {/* Left Side Column - Centered on Mobile/Tablet */}
+        {/* Left Column: Heading, Titles & CTAs */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -104,19 +98,20 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ activeSection }) => {
           >
             <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
             <Sparkles className="w-4 h-4 text-cyan-400" />
-            <span>{user.availability}</span>
+            <span>{personalInfo.availability}</span>
           </motion.div>
 
-          {/* Greeting & Dynamic Name */}
+          {/* Subtitle / Intro */}
           <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="text-lg sm:text-xl font-mono text-cyan-400 tracking-wider mb-2 font-semibold"
+            className="text-base sm:text-lg font-mono text-cyan-400 tracking-wider mb-2 font-semibold"
           >
-            {user.greeting}
+            Hello, I'm
           </motion.span>
 
+          {/* Animated Name */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -124,31 +119,35 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ activeSection }) => {
             className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-4 leading-tight drop-shadow-lg"
           >
             <span className="text-gradient-cyan bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-              {user.name}
+              {personalInfo.displayName}
             </span>
           </motion.h1>
 
-          {/* Dynamic Professional Title */}
+          {/* Dual Title Badges: Full-Stack & Test Automation */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="flex items-center justify-center lg:justify-start gap-2 text-xl sm:text-2xl font-semibold text-gray-300 mb-6"
+            className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 text-sm sm:text-base font-semibold mb-6"
           >
-            <Shield className="w-6 h-6 text-purple-400 hidden sm:inline-block" />
-            <span className="text-gradient bg-gradient-to-r from-slate-100 via-cyan-200 to-slate-300 bg-clip-text text-transparent">
-              {user.title}
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-300">
+              <ShieldCheck className="w-4 h-4 text-cyan-400" />
+              Test Automation Architect
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-purple-500/10 border border-purple-500/30 text-purple-300">
+              <Code2 className="w-4 h-4 text-purple-400" />
+              Senior Full-Stack Developer
             </span>
           </motion.div>
 
-          {/* Short Bio */}
+          {/* Short Bio Tagline */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
             className="text-gray-300 text-base sm:text-lg leading-relaxed max-w-xl mb-8 font-normal"
           >
-            {user.shortBio}
+            {personalInfo.shortBio}
           </motion.p>
 
           {/* Action CTAs */}
@@ -158,57 +157,82 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ activeSection }) => {
             transition={{ delay: 0.7 }}
             className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-10 w-full sm:w-auto"
           >
+            {/* View Projects CTA */}
+            <a
+              href="#projects"
+              className="group flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold text-sm sm:text-base tracking-wide shadow-[0_0_30px_rgba(6,182,212,0.35)] hover:shadow-[0_0_45px_rgba(6,182,212,0.55)] hover:scale-[1.03] transition-all duration-300 cursor-pointer"
+            >
+              <FolderKanban className="w-5 h-5 text-white" />
+              <span>View Projects</span>
+              <ArrowRight className="w-4 h-4 text-cyan-200 group-hover:translate-x-1 transition-transform" />
+            </a>
+
+            {/* Download Resume with Confetti */}
             <button
               onClick={handleDownloadResume}
-              className="group relative flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 text-white font-semibold text-sm sm:text-base tracking-wide shadow-[0_0_35px_rgba(6,182,212,0.35)] hover:shadow-[0_0_50px_rgba(6,182,212,0.6)] hover:scale-[1.04] transition-all duration-300 cursor-pointer overflow-hidden"
+              className="group relative flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl glass-panel border border-white/20 text-white font-semibold text-sm sm:text-base hover:bg-white/10 hover:border-cyan-400/50 hover:shadow-[0_0_30px_rgba(6,182,212,0.25)] hover:scale-[1.03] transition-all duration-300 cursor-pointer overflow-hidden"
             >
-              {/* Button Shimmer Light */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-              <Download className="w-5 h-5 group-hover:-translate-y-0.5 transition-transform" />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              <Download className="w-5 h-5 text-cyan-400 group-hover:-translate-y-0.5 transition-transform" />
               <span>Download Resume</span>
             </button>
 
+            {/* Contact Me CTA */}
             <a
-              href="#projects"
-              className="group flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-2xl glass-panel border border-white/20 text-white font-semibold text-sm sm:text-base hover:bg-white/10 hover:border-cyan-400/50 hover:shadow-[0_0_30px_rgba(6,182,212,0.25)] hover:scale-[1.04] transition-all duration-300 cursor-pointer"
+              href="#contact"
+              className="flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-white/5 border border-white/10 text-gray-300 font-semibold text-sm hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300"
             >
-              <FolderKanban className="w-5 h-5 text-cyan-400" />
-              <span>View Projects</span>
-              <ArrowRight className="w-4 h-4 text-cyan-300 group-hover:translate-x-1 transition-transform" />
+              <Mail className="w-4 h-4 text-purple-400" />
+              <span>Contact Me</span>
             </a>
           </motion.div>
 
-          {/* Social Icons with glowing hover animations */}
+          {/* Social Links & Quick Connect */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="flex items-center justify-center lg:justify-start gap-4"
+            className="flex items-center justify-center lg:justify-start gap-3"
           >
             <span className="text-xs font-mono uppercase tracking-widest text-slate-400 font-semibold mr-1">
               Connect:
             </span>
-            {[
-              { icon: <GithubIcon className="w-5 h-5" />, href: user.socials.github, label: 'GitHub', color: 'hover:text-white hover:border-white hover:shadow-[0_0_20px_rgba(255,255,255,0.4)]' },
-              { icon: <LinkedinIcon className="w-5 h-5" />, href: user.socials.linkedin, label: 'LinkedIn', color: 'hover:text-cyan-400 hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(6,182,212,0.5)]' },
-              { icon: <InstagramIcon className="w-5 h-5" />, href: user.socials.instagram, label: 'Instagram', color: 'hover:text-purple-400 hover:border-purple-400 hover:shadow-[0_0_20px_rgba(168,85,247,0.5)]' },
-              { icon: <Mail className="w-5 h-5" />, href: user.socials.email, label: 'Email', color: 'hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]' },
-            ].map((soc, i) => (
-              <a
-                key={i}
-                href={soc.href}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={soc.label}
-                className={`w-11 h-11 rounded-full bg-white/[0.05] border border-white/15 text-gray-300 flex items-center justify-center transition-all duration-300 hover:scale-110 ${soc.color}`}
-              >
-                {soc.icon}
-              </a>
-            ))}
+            <a
+              href={personalInfo.socials.github}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub"
+              className="w-10 h-10 rounded-full bg-white/[0.05] border border-white/15 text-gray-300 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:text-white hover:border-white hover:shadow-[0_0_20px_rgba(255,255,255,0.4)]"
+            >
+              <GithubIcon className="w-4 h-4" />
+            </a>
+            <a
+              href={personalInfo.socials.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn"
+              className="w-10 h-10 rounded-full bg-white/[0.05] border border-white/15 text-gray-300 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:text-cyan-400 hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(6,182,212,0.5)]"
+            >
+              <LinkedinIcon className="w-4 h-4" />
+            </a>
+            <a
+              href={personalInfo.socials.email}
+              aria-label="Email"
+              className="w-10 h-10 rounded-full bg-white/[0.05] border border-white/15 text-gray-300 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]"
+            >
+              <Mail className="w-4 h-4" />
+            </a>
+            <a
+              href={personalInfo.socials.phone}
+              aria-label="Phone"
+              className="w-10 h-10 rounded-full bg-white/[0.05] border border-white/15 text-gray-300 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:text-emerald-400 hover:border-emerald-400 hover:shadow-[0_0_20px_rgba(16,185,129,0.5)]"
+            >
+              <Phone className="w-4 h-4" />
+            </a>
           </motion.div>
         </motion.div>
 
-        {/* Right Side Column - Developer 3D ID Card */}
+        {/* Right Column: 3D Developer Access ID Card */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -220,12 +244,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ activeSection }) => {
 
           {/* 3D Developer Access ID Card */}
           <ProfileIdCard
-            profileImage={user.profileImage}
-            name={user.name}
-            title={user.title}
-            email={user.email}
-            location={user.location}
-            availability={user.availability}
+            profileImage={personalInfo.profileImage}
+            name={personalInfo.displayName}
+            title={personalInfo.displayTitles[0] + " & " + personalInfo.displayTitles[1]}
+            email={personalInfo.email}
+            location={personalInfo.location}
+            availability={personalInfo.availability}
             activeSection={activeSection}
           />
         </motion.div>

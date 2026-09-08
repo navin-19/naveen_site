@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
-import { portfolioData } from '../data/portfolioData';
+import { personalInfo } from '../data/personalInfo';
 import {
   UserCheck,
   ShieldCheck,
@@ -9,10 +9,14 @@ import {
   Layers,
   Award,
   TrendingUp,
+  Workflow,
+  Sparkles,
+  MapPin,
+  Mail,
+  Phone,
 } from 'lucide-react';
 
 export const AboutSection: React.FC = () => {
-  const { user, stats } = portfolioData;
   const sectionRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
 
@@ -33,30 +37,75 @@ export const AboutSection: React.FC = () => {
   );
 
   const statCards = [
-    { label: 'Years Experience', value: stats.yearsExp, icon: <Award className="w-6 h-6 text-cyan-400" /> },
-    { label: 'Projects Completed', value: stats.projectsCompleted, icon: <TrendingUp className="w-6 h-6 text-blue-400" /> },
-    { label: 'Automation Reliability', value: stats.automationRate, icon: <ShieldCheck className="w-6 h-6 text-emerald-400" /> },
-    { label: 'Tech Stack Count', value: stats.techStackCount, icon: <Layers className="w-6 h-6 text-purple-400" /> },
+    {
+      label: 'Years Experience',
+      value: personalInfo.stats.yearsExp,
+      subtitle: 'Automation & Dev',
+      icon: <Award className="w-6 h-6 text-cyan-400" />,
+      color: 'border-cyan-500/30 group-hover:border-cyan-400/60',
+    },
+    {
+      label: 'Projects Delivered',
+      value: personalInfo.stats.projectsCount,
+      subtitle: 'Web Apps & Frameworks',
+      icon: <TrendingUp className="w-6 h-6 text-blue-400" />,
+      color: 'border-blue-500/30 group-hover:border-blue-400/60',
+    },
+    {
+      label: 'Automation Reliability',
+      value: personalInfo.stats.testAutomationPassRate,
+      subtitle: 'CI/CD Pass Rate',
+      icon: <ShieldCheck className="w-6 h-6 text-emerald-400" />,
+      color: 'border-emerald-500/30 group-hover:border-emerald-400/60',
+    },
+    {
+      label: 'Tech Stack & Tools',
+      value: personalInfo.stats.techStackCount,
+      subtitle: 'Frameworks & Languages',
+      icon: <Layers className="w-6 h-6 text-purple-400" />,
+      color: 'border-purple-500/30 group-hover:border-purple-400/60',
+    },
   ];
 
-  const highlights = [
-    'Architecting high-availability web applications with modern React & TypeScript',
-    'Building enterprise self-healing E2E test suites using Playwright & Selenium',
-    'Optimizing web performance, LCP Core Web Vitals, and responsive UI accessibility',
-    'Containerizing microservices and crafting CI/CD matrix build pipelines',
+  const corePillars = [
+    {
+      title: 'UI Test Automation',
+      desc: 'Scalable POM, DDT, and Hybrid frameworks with Selenium and Pytest.',
+      icon: <Workflow className="w-5 h-5 text-cyan-400" />,
+    },
+    {
+      title: 'REST API Testing',
+      desc: 'Postman testing with JSON schema validations and CI execution.',
+      icon: <Zap className="w-5 h-5 text-purple-400" />,
+    },
+    {
+      title: 'CI/CD Pipelines',
+      desc: 'Automated regression suites integrated into GitHub Actions and Jenkins.',
+      icon: <ShieldCheck className="w-5 h-5 text-emerald-400" />,
+    },
+    {
+      title: 'Python Development',
+      desc: 'Backend web apps with Python, Django, Flask, and MySQL.',
+      icon: <Sparkles className="w-5 h-5 text-amber-400" />,
+    },
   ];
 
   return (
-    <section id="about" className="py-24 relative px-4 sm:px-8 z-10" ref={sectionRef}>
-      {/* Parallax background glow orbs */}
+    <section
+      id="about"
+      className="py-24 relative px-4 sm:px-8 z-10 bg-gradient-to-b from-transparent via-cyan-500/[0.018] to-transparent border-t border-white/[0.04]"
+      ref={sectionRef}
+    >
+      {/* Soft Ambient Section Glow */}
       <motion.div
-        className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-cyan-500/8 rounded-full blur-[120px] pointer-events-none"
+        className="absolute top-1/3 -left-20 w-[420px] h-[420px] bg-cyan-500/8 rounded-full blur-[130px] pointer-events-none"
         style={{ y: orbY, willChange: 'transform' }}
       />
       <motion.div
-        className="absolute -bottom-32 -right-32 w-[400px] h-[400px] bg-purple-500/8 rounded-full blur-[120px] pointer-events-none"
+        className="absolute bottom-10 -right-20 w-[380px] h-[380px] bg-purple-500/8 rounded-full blur-[130px] pointer-events-none"
         style={{ y: orbY2, willChange: 'transform' }}
       />
+
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
@@ -77,46 +126,70 @@ export const AboutSection: React.FC = () => {
             transition={{ delay: 0.1 }}
             className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight"
           >
-            Driven by <span className="text-gradient-cyan">Precision & Innovation</span>
+            Engineering Quality Through <span className="text-gradient-cyan">Code & Precision</span>
           </motion.h2>
         </div>
 
         {/* Story Card & Highlights Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
-          {/* Main Story Container */}
+          {/* Main Summary Container */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-7 glass-card p-8 rounded-3xl border border-white/10 relative overflow-hidden"
+            className="lg:col-span-7 glass-card p-8 rounded-3xl border border-white/10 relative overflow-hidden flex flex-col justify-between"
           >
             <div className="absolute top-0 right-0 w-48 h-48 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
 
-            <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-              <Zap className="w-5 h-5 text-cyan-400" />
-              Professional Background
-            </h3>
+            <div>
+              <div className="flex items-center justify-between gap-4 mb-4">
+                <h3 className="text-2xl font-bold text-white flex items-center gap-2">
+                  <Zap className="w-5 h-5 text-cyan-400" />
+                  Professional Summary
+                </h3>
+                <span className="text-xs font-mono px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300">
+                  SDET & Python Dev
+                </span>
+              </div>
 
-            <p className="text-gray-300 text-base leading-relaxed mb-6">
-              {user.longBio}
-            </p>
+              <p className="text-gray-300 text-base leading-relaxed mb-6 font-normal">
+                {personalInfo.summary}
+              </p>
 
-            <p className="text-gray-400 text-sm leading-relaxed mb-6">
-              I specialize in designing resilient web applications and robust test automation architectures that eliminate human error, accelerate deployment velocity, and captivate users with pixel-perfect visual aesthetics.
-            </p>
-
-            {/* Bullet points */}
-            <div className="space-y-3">
-              {highlights.map((item, idx) => (
-                <div key={idx} className="flex items-start gap-3 text-sm text-gray-300">
-                  <CheckCircle className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
-                  <span>{item}</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 pt-4 border-t border-white/10">
+                <div className="flex items-center gap-2.5 text-xs text-gray-300">
+                  <MapPin className="w-4 h-4 text-purple-400 shrink-0" />
+                  <span>{personalInfo.location}</span>
                 </div>
+                <div className="flex items-center gap-2.5 text-xs text-gray-300">
+                  <Mail className="w-4 h-4 text-cyan-400 shrink-0" />
+                  <span>{personalInfo.email}</span>
+                </div>
+                <div className="flex items-center gap-2.5 text-xs text-gray-300">
+                  <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>{personalInfo.phone}</span>
+                </div>
+                <div className="flex items-center gap-2.5 text-xs text-gray-300">
+                  <CheckCircle className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span>Available for Hire</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Core Competencies Badges */}
+            <div className="flex flex-wrap gap-2 pt-4 border-t border-white/5">
+              {['Selenium', 'Pytest', 'POM', 'Postman API', 'GitHub Actions', 'Python/Django', 'MySQL'].map((tag, idx) => (
+                <span
+                  key={idx}
+                  className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-gray-300 hover:border-cyan-500/40 transition-colors"
+                >
+                  {tag}
+                </span>
               ))}
             </div>
           </motion.div>
 
-          {/* Stats Counter Grid */}
+          {/* Stats Counter Cards Grid */}
           <div className="lg:col-span-5 grid grid-cols-2 gap-4">
             {statCards.map((stat, idx) => (
               <motion.div
@@ -125,22 +198,49 @@ export const AboutSection: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className="glass-card p-6 rounded-3xl border border-white/10 flex flex-col justify-between group hover:border-cyan-500/40"
+                className={`glass-card p-6 rounded-3xl border ${stat.color} flex flex-col justify-between group transition-all duration-300`}
               >
-                <div className="p-3 rounded-2xl bg-white/5 border border-white/10 w-fit mb-4 group-hover:scale-110 transition-transform">
+                <div className="p-3 rounded-2xl bg-white/5 border border-white/10 w-fit mb-3 group-hover:scale-110 transition-transform">
                   {stat.icon}
                 </div>
                 <div>
                   <span className="text-3xl sm:text-4xl font-extrabold text-white group-hover:text-cyan-300 transition-colors">
                     {stat.value}
                   </span>
-                  <p className="text-xs text-gray-400 mt-1 font-medium">
+                  <p className="text-xs text-white font-semibold mt-1">
                     {stat.label}
+                  </p>
+                  <p className="text-[11px] text-gray-400 mt-0.5">
+                    {stat.subtitle}
                   </p>
                 </div>
               </motion.div>
             ))}
           </div>
+        </div>
+
+        {/* 4 Core Architectural Pillars */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {corePillars.map((pillar, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1 }}
+              className="glass-card p-6 rounded-2xl border border-white/10 hover:border-cyan-500/40 transition-all duration-300 group"
+            >
+              <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 w-fit mb-3 group-hover:scale-110 transition-transform">
+                {pillar.icon}
+              </div>
+              <h4 className="text-base font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">
+                {pillar.title}
+              </h4>
+              <p className="text-xs text-gray-400 leading-relaxed">
+                {pillar.desc}
+              </p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
-import type { SkillItem } from './data/portfolioData';
-import { ParticleBackground } from './components/ParticleBackground';
+import type { SkillItem } from './data/skills';
+import { AnimatedBackground } from './components/AnimatedBackground';
 import { CustomCursor } from './components/CustomCursor';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { SkillModal } from './components/SkillModal';
 import { AboutSection } from './components/AboutSection';
 import { SkillsSection } from './components/SkillsSection';
-import { ProjectsSection } from './components/ProjectsSection';
-import { GallerySection } from './components/GallerySection';
 import { ExperienceSection } from './components/ExperienceSection';
+import { ProjectsSection } from './components/ProjectsSection';
+import { EducationSection } from './components/EducationSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 
@@ -28,7 +28,7 @@ export function App() {
           }
         });
       },
-      { threshold: 0.3 }
+      { threshold: 0.25 }
     );
 
     sections.forEach((sec) => observer.observe(sec));
@@ -37,41 +37,42 @@ export function App() {
 
   return (
     <div className="min-h-screen bg-[#0B0B0F] text-gray-100 relative overflow-x-hidden selection:bg-cyan-500/30 selection:text-white">
-      {/* Dynamic Canvas Background & Custom Glow Follower */}
-      <ParticleBackground />
+      {/* Shared Global Animated Background (Site-wide, Fixed Layer) */}
+      <AnimatedBackground />
+
+      {/* Custom Mouse Follower */}
       <CustomCursor />
 
-      {/* Glass Sticky Navigation Bar */}
+      {/* Translucent Glass Sticky Navigation Bar */}
       <Navbar activeSection={activeSection} />
 
-      {/* Main Content Layout */}
+      {/* Main Content Layout with Seamless Section Transitions */}
       <main className="relative z-10">
-        {/* Hero Section with Skill Orbit Ring */}
+        {/* 1. Hero Section with 3D ID Card & Confetti CTA */}
         <HeroSection
-          onSelectSkill={(skill) => setSelectedSkill(skill)}
           activeSection={activeSection}
         />
 
-        {/* About Section with Metrics */}
+        {/* 2. About Section with Subtle Contrast Wash */}
         <AboutSection />
 
-        {/* Skills Section with Category Filters */}
+        {/* 3. Skills Section with Clean Translucent Canvas */}
         <SkillsSection onSelectSkill={(skill) => setSelectedSkill(skill)} />
 
-        {/* Projects Section with Detail Modals */}
-        <ProjectsSection />
-
-        {/* Design Gallery with 3D Tilt Cards & Lightbox */}
-        <GallerySection />
-
-        {/* Career Experience Timeline */}
+        {/* 4. Career Experience Timeline with Subtle Accent Wash */}
         <ExperienceSection />
 
-        {/* Glossy Contact Section */}
+        {/* 5. Projects Section with Problem -> Approach -> Outcome Case Studies */}
+        <ProjectsSection />
+
+        {/* 6. Education & Certifications with Subtle Accent Wash */}
+        <EducationSection />
+
+        {/* 7. Glossy Contact Section with Direct Channels & Form */}
         <ContactSection />
       </main>
 
-      {/* Minimal Sleek Footer */}
+      {/* Footer */}
       <Footer />
 
       {/* Interactive Skill Detail Modal */}
