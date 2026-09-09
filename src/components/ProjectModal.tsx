@@ -67,10 +67,10 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
           </div>
 
           {/* Title */}
-          <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-1">
+          <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-1 tracking-tight">
             {project.title}
           </h3>
-          <p className="text-sm text-cyan-400 font-medium mb-4">{project.subtitle}</p>
+          <p className="text-sm text-cyan-300 font-medium mb-4 font-body">{project.subtitle}</p>
 
           <p className="text-gray-300 text-sm leading-relaxed mb-6">
             {project.fullDescription}

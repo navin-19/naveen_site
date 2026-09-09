@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useSpring, useMotionValue } from 'framer-motion';
-import { QrCode, MapPin, Mail, Shield, User } from 'lucide-react';
+import { QrCode, MapPin, Mail, User } from 'lucide-react';
 
 interface ProfileIdCardProps {
   profileImage: string;
@@ -80,6 +80,8 @@ export const ProfileIdCard: React.FC<ProfileIdCardProps> = ({
     });
   };
 
+  const isAvailable = availability.toLowerCase().includes('available');
+
   return (
     <div
       ref={containerRef}
@@ -114,7 +116,7 @@ export const ProfileIdCard: React.FC<ProfileIdCardProps> = ({
         className="relative flex flex-col items-center cursor-grab active:cursor-grabbing z-20"
       >
         {/* BLACK WOVEN LANYARD STRAPS HANGING FROM TOP OF PAGE */}
-        <div className="hidden lg:flex relative w-full h-[320px] -mt-[300px] mb-[-42px] justify-center overflow-visible pointer-events-none z-30">
+        <div className="hidden lg:flex relative w-full h-[320px] -mt-[300px] mb-[-6px] justify-center overflow-visible pointer-events-none z-30">
           <motion.div
             key={`strap-elastic-${bounceKey}`}
             initial={{ scaleY: 1.5, y: -90, rotate: -8 }}
@@ -179,7 +181,7 @@ export const ProfileIdCard: React.FC<ProfileIdCardProps> = ({
               />
             </svg>
 
-            {/* REALISTIC MACHINED STAINLESS STEEL LANYARD HARDWARE ASSEMBLY */}
+            {/* MODERN PRECISION CNC TITANIUM & GUNMETAL LANYARD HARDWARE */}
             <motion.div
               key={`clip-wobble-${bounceKey}`}
               animate={{
@@ -190,33 +192,38 @@ export const ProfileIdCard: React.FC<ProfileIdCardProps> = ({
                 duration: 1.35,
                 ease: 'easeOut',
               }}
-              className="absolute bottom-[-18px] z-50 flex flex-col items-center drop-shadow-[0_12px_15px_rgba(0,0,0,0.85)]"
+              className="absolute bottom-[-10px] z-50 flex flex-col items-center drop-shadow-[0_14px_18px_rgba(0,0,0,0.9)]"
             >
-              {/* 1. Brushed Steel Lanyard Strap Crimp Clamp */}
-              <div className="w-9 h-4 rounded-sm bg-gradient-to-r from-[#94A3B8] via-[#F1F5F9] to-[#64748B] border border-[#CBD5E1] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.9),inset_0_-1px_1px_rgba(0,0,0,0.6)] flex items-center justify-center">
-                <div className="w-5 h-1 bg-[#475569] rounded-full border-t border-black/50 border-b border-white/60" />
+              {/* 1. Sleek Matte Gunmetal Strap End-Cap / Crimp Clamp */}
+              <div className="w-10 h-3.5 rounded-sm bg-gradient-to-b from-[#334155] via-[#1E293B] to-[#0F172A] border border-[#64748B]/60 shadow-[0_2px_4px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.4)] flex items-center justify-between px-1.5">
+                <div className="w-1 h-1 rounded-full bg-[#64748B] border border-black/80" />
+                <div className="w-4 h-0.5 bg-[#475569] rounded-full" />
+                <div className="w-1 h-1 rounded-full bg-[#64748B] border border-black/80" />
               </div>
 
-              {/* 2. Heavy-Duty Steel O-Ring / Link */}
-              <div className="w-8 h-8 -my-1 rounded-full border-[3px] border-[#CBD5E1] bg-gradient-to-b from-[#E2E8F0] via-[#94A3B8] to-[#475569] shadow-[0_4px_6px_rgba(0,0,0,0.5),inset_0_2px_3px_rgba(255,255,255,0.8),inset_0_-2px_3px_rgba(0,0,0,0.7)] flex items-center justify-center relative z-10">
-                <div className="w-3.5 h-3.5 rounded-full bg-[#0E1015] border border-[#64748B]/60 shadow-[inset_0_2px_4px_rgba(0,0,0,0.9)]" />
+              {/* 2. Precision CNC Swivel Link Barrel */}
+              <div className="w-3.5 h-3.5 -my-0.5 rounded-sm bg-gradient-to-r from-[#64748B] via-[#CBD5E1] to-[#475569] border border-[#94A3B8] shadow-[0_2px_4px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.8)] flex items-center justify-center relative z-10">
+                <div className="w-1.5 h-1.5 rounded-full bg-[#0F172A] border border-white/40" />
               </div>
 
-              {/* 3. Real Machined Swivel Lobster Clip with Tongue Clamping Into Card Slot */}
-              <div className="relative flex flex-col items-center -mt-1.5 z-20">
-                {/* Swivel Barrel Base */}
-                <div className="w-5 h-3.5 rounded-t-md bg-gradient-to-r from-[#94A3B8] via-[#F8FAFC] to-[#475569] border border-[#CBD5E1] shadow-[0_2px_4px_rgba(0,0,0,0.4),inset_0_1px_2px_rgba(255,255,255,0.9)] flex items-center justify-center">
-                  <div className="w-2.5 h-1 bg-[#64748B] rounded-sm" />
+              {/* 3. Modern Sleek Tactical Carabiner / Clasp Body */}
+              <div className="relative flex flex-col items-center z-20">
+                {/* Clasp Upper Shoulder */}
+                <div className="w-5 h-2 rounded-t-md bg-gradient-to-r from-[#1E293B] via-[#475569] to-[#1E293B] border-t border-x border-[#64748B] shadow-sm flex items-center justify-center">
+                  <div className="w-3 h-0.5 bg-[#0F172A] rounded-full" />
                 </div>
 
-                {/* Main Machined Steel Carabiner Body & Hook Tongue */}
-                <div className="relative w-6 h-10 bg-gradient-to-r from-[#64748B] via-[#E2E8F0] to-[#475569] rounded-b-md border-x border-b border-[#CBD5E1] shadow-[0_6px_12px_rgba(0,0,0,0.7),inset_0_2px_4px_rgba(255,255,255,0.9),inset_0_-2px_4px_rgba(0,0,0,0.8)] flex flex-col items-center justify-between p-0.5">
-                  {/* Spring Lever Pin Accent */}
-                  <div className="w-3.5 h-2.5 rounded-sm bg-gradient-to-b from-[#F8FAFC] to-[#94A3B8] border border-[#CBD5E1] shadow-inner mt-0.5" />
-                  
-                  {/* Steel Clamping Jaw / Hook Loop Passing Through Slot */}
-                  <div className="w-4 h-4 rounded-b-sm bg-gradient-to-b from-[#CBD5E1] via-[#64748B] to-[#334155] border-t-2 border-[#1E293B] shadow-[0_3px_5px_rgba(0,0,0,0.6)] flex items-center justify-center">
-                    <div className="w-2 h-2 rounded-full bg-[#1E293B] shadow-inner" />
+                {/* Main Matte Titanium Clasp Frame with Recessed Spring Gate */}
+                <div className="relative w-5 h-9 bg-gradient-to-b from-[#1E293B] via-[#334155] to-[#0F172A] rounded-b-lg border border-[#64748B]/80 shadow-[0_4px_8px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.4)] flex flex-col items-center justify-between p-0.5">
+                  {/* Internal Negative Cutout */}
+                  <div className="w-3 h-4 rounded-md bg-[#090B0E] border border-white/10 shadow-inner flex items-center justify-center relative overflow-hidden">
+                    {/* Metallic Silver Spring Gate Pin */}
+                    <div className="absolute right-0.5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#F8FAFC] via-[#94A3B8] to-[#64748B] shadow-[0_0_2px_rgba(255,255,255,0.8)]" />
+                  </div>
+
+                  {/* Machined Lower Hook Jaw Tongue clamping through the card cutout */}
+                  <div className="w-3.5 h-3 rounded-b-md bg-gradient-to-b from-[#475569] via-[#334155] to-[#1E293B] border-t border-[#0F172A] shadow-[0_2px_4px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.4)] flex items-center justify-center">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#0F172A] border border-[#64748B]/60 shadow-inner" />
                   </div>
                 </div>
               </div>
@@ -224,209 +231,119 @@ export const ProfileIdCard: React.FC<ProfileIdCardProps> = ({
           </motion.div>
         </div>
 
-        {/* BRUSHED TITANIUM / GUNMETAL METALLIC DEV PASS ID CARD */}
+        {/* FULL-BLEED PHOTO GLASS DEV PASS ID CARD */}
         <div
           ref={cardRef}
           onMouseMove={handleCardMouseMove}
-          className="relative z-20 w-[295px] sm:w-[325px] aspect-[2.63/4.08] rounded-[28px] border-2 border-[#5E6677] hover:border-[#CBD5E1] shadow-[0_35px_80px_rgba(0,0,0,0.95),0_0_50px_rgba(255,255,255,0.05),inset_0_1px_2px_rgba(255,255,255,0.5),inset_0_-3px_6px_rgba(0,0,0,0.9)] group overflow-hidden flex flex-col items-center justify-between p-3.5 pt-3 transition-all duration-500"
-          style={{
-            background: `
-              radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.15) 0%, transparent 65%),
-              repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.018) 2px, rgba(255,255,255,0.018) 4px),
-              linear-gradient(180deg, #4A515D 0%, #353B47 30%, #252A34 70%, #161920 100%)
-            `,
-          }}
+          className="relative z-20 w-[295px] sm:w-[325px] aspect-[2.63/4.08] rounded-[28px] border-2 border-white/35 hover:border-white/60 ring-1 ring-white/20 shadow-[0_0_0_1px_rgba(0,0,0,0.8),0_25px_60px_rgba(0,0,0,0.95),inset_0_1px_2px_rgba(255,255,255,0.5)] group overflow-hidden flex flex-col justify-between p-3.5 pt-2.5 transition-all duration-500 bg-[#0B0C10]"
         >
-          {/* Top Real Punched Slot Cutout for Clip Hardware */}
-          <div className="w-full flex justify-center pt-0 pb-2 relative z-10">
-            <div className="w-16 h-3.5 bg-[#0A0C10] rounded-full border border-[#4F5665] shadow-[inset_0_3px_6px_rgba(0,0,0,0.95),0_1px_1px_rgba(255,255,255,0.25)] flex items-center justify-center">
+          {/* 1. Full-Bleed Profile Image */}
+          <img
+            src={profileImage}
+            alt={name}
+            className="absolute inset-0 w-full h-full object-cover object-[center_12%] filter contrast-[1.05] brightness-[1.02] pointer-events-none"
+          />
+
+          {/* 2. Soft Edge Vignette */}
+          <div
+            className="absolute inset-0 pointer-events-none opacity-40"
+            style={{
+              background: 'radial-gradient(ellipse at 50% 35%, transparent 45%, rgba(0,0,0,0.75) 100%)',
+            }}
+          />
+
+          {/* 3. Deep Bottom Readability Gradient Overlay */}
+          <div
+            className="absolute inset-x-0 bottom-0 pointer-events-none"
+            style={{
+              top: '32%',
+              background: 'linear-gradient(to bottom, transparent 0%, rgba(8,9,12,0.4) 20%, rgba(8,9,12,0.85) 50%, rgba(8,9,12,0.97) 100%)',
+            }}
+          />
+
+          {/* Inner Glass Border Line */}
+          <div className="absolute inset-1 rounded-[24px] border border-white/15 pointer-events-none z-30" />
+
+          {/* 4. Top Punched Slot Cutout for Clip Hardware */}
+          <div className="w-full flex justify-center pt-0 pb-2 relative z-20">
+            <div className="w-16 h-3.5 bg-[#0A0C10]/95 rounded-full border border-white/25 shadow-[inset_0_3px_6px_rgba(0,0,0,0.95),0_1px_2px_rgba(255,255,255,0.2)] flex items-center justify-center">
               <div className="w-12 h-1 bg-[#050608] rounded-full opacity-90" />
             </div>
           </div>
 
-          {/* Dynamic Interactive Mouse Metal Sheen Reflection */}
+          {/* 5. Dynamic Interactive Mouse Specular Sheen (Soft Light Sweep over Photo) */}
           <div
             className="absolute inset-0 pointer-events-none transition-opacity duration-500 opacity-0 group-hover:opacity-100 z-30 rounded-[28px]"
             style={{
-              background: `radial-gradient(320px circle at ${glowPos.x}px ${glowPos.y}px, rgba(255, 255, 255, 0.16), rgba(210, 230, 255, 0.05) 50%, transparent 80%)`,
+              background: `radial-gradient(300px circle at ${glowPos.x}px ${glowPos.y}px, rgba(255, 255, 255, 0.12), transparent 75%)`,
             }}
           />
 
-          {/* INTERNAL CONTENT CONTAINER */}
-          <div className="relative w-full h-full flex flex-col items-center justify-between z-20">
-            
-            {/* 1. Top Header Banner: OFFICIAL DEV PASS + VERIFIED Indicator */}
-            <div className="w-full flex items-center justify-between px-1">
-              {/* Left: Shield + OFFICIAL DEV PASS */}
-              <div className="flex items-center gap-1.5">
-                <div className="w-4 h-4 rounded-sm bg-gradient-to-b from-[#E2E8F0] to-[#94A3B8] p-0.5 shadow-sm flex items-center justify-center">
-                  <Shield className="w-3 h-3 text-[#1E293B] fill-[#1E293B]" />
-                </div>
-                <span 
-                  className="text-[9px] font-mono tracking-widest font-extrabold uppercase text-[#ECE5DA]"
-                  style={{
-                    textShadow: '0 -1px 0 rgba(0,0,0,0.9), 0 1px 1px rgba(255,255,255,0.25)',
-                  }}
-                >
-                  + OFFICIAL DEV PASS
-                </span>
-              </div>
-
-              {/* Right: Glowing Green LED + VERIFIED */}
-              <div className="flex items-center gap-1.5">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_0_8px_#10B981]" />
-                </span>
-                <span 
-                  className="text-[9px] font-mono tracking-wider font-extrabold text-[#ECE5DA] uppercase"
-                  style={{
-                    textShadow: '0 -1px 0 rgba(0,0,0,0.9), 0 1px 1px rgba(255,255,255,0.25)',
-                  }}
-                >
-                  VERIFIED
-                </span>
-              </div>
-            </div>
-
-            {/* 2. CIRCULAR PHOTO WITH MULTI-TIER METAL BEZEL RING */}
-            <div className="relative my-2 flex flex-col items-center">
-              <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full p-1.5 bg-gradient-to-b from-[#6B7586] via-[#3E4552] to-[#1E222A] shadow-[0_8px_25px_rgba(0,0,0,0.75),inset_0_2px_3px_rgba(255,255,255,0.45),inset_0_-2px_4px_rgba(0,0,0,0.85)] flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                {/* Inner Inset Bezel Ring */}
-                <div className="w-full h-full rounded-full p-1 bg-gradient-to-b from-[#181B22] via-[#2D333E] to-[#4A5362] shadow-inner flex items-center justify-center">
-                  <div className="w-full h-full rounded-full overflow-hidden border border-black/80 bg-[#12141A] relative shadow-[inset_0_3px_8px_rgba(0,0,0,0.95)]">
-                    <img
-                      src={profileImage}
-                      alt={name}
-                      className="w-full h-full object-cover object-top filter contrast-[1.06] brightness-[1.02]"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 3. ENGRAVED METALLIC NAME & DESIGNATION BLOCK */}
-            <div className="w-full flex flex-col items-center text-center px-1">
-              <h3 
-                className="text-lg sm:text-[21px] font-black tracking-[0.1em] uppercase text-[#F2ECE1] transition-all"
-                style={{
-                  textShadow: '0 -1px 1px rgba(0, 0, 0, 0.95), 0 1px 1px rgba(255, 255, 255, 0.4), 0 2px 4px rgba(0, 0, 0, 0.7)',
-                }}
-              >
+          {/* 6. Lower Card Content Stack */}
+          <div className="relative z-20 w-full flex flex-col justify-end mt-auto pt-4">
+            {/* Name + Title */}
+            <div className="px-1 text-left">
+              <h3 className="text-lg sm:text-xl font-black tracking-tight text-white uppercase drop-shadow-md leading-tight">
                 {name}
               </h3>
-              <p 
-                className="text-[10px] sm:text-[10.5px] font-medium text-[#B8C0CC] leading-tight tracking-tight mt-0.5 max-w-[270px]"
-                style={{
-                  textShadow: '0 -1px 0 rgba(0, 0, 0, 0.8), 0 1px 1px rgba(255, 255, 255, 0.2)',
-                }}
-              >
+              <p className="text-[10px] sm:text-[11px] font-medium text-gray-300 leading-tight mt-0.5 max-w-[270px] drop-shadow-sm">
                 {title || 'Senior Full-Stack Developer & Test Automation Architect'}
               </p>
             </div>
 
-            {/* 4. METADATA SECTION */}
-            <div className="w-full grid grid-cols-12 gap-2 mt-2 px-1 pt-2 border-t border-[#4E5666]/70">
-              {/* Left Column: Location & Email */}
-              <div className="col-span-7 flex flex-col gap-1.5 text-left">
-                <div className="flex items-center gap-1.5 text-[#D1D5DB]">
-                  <MapPin className="w-3 h-3 text-[#9CA3AF] shrink-0" />
-                  <span 
-                    className="text-[9px] font-medium text-[#E5E7EB] truncate"
-                    style={{ textShadow: '0 -1px 0 rgba(0,0,0,0.8), 0 1px 1px rgba(255,255,255,0.2)' }}
-                  >
-                    {location}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-1.5 text-[#D1D5DB]">
-                  <Mail className="w-3 h-3 text-[#9CA3AF] shrink-0" />
-                  <span 
-                    className="text-[9px] font-medium text-[#E5E7EB] truncate"
-                    style={{ textShadow: '0 -1px 0 rgba(0,0,0,0.8), 0 1px 1px rgba(255,255,255,0.2)' }}
-                  >
-                    {email}
-                  </span>
-                </div>
+            {/* Translucent Glass Contact Info Strip */}
+            <div className="w-full rounded-xl bg-black/40 backdrop-blur-md border border-white/10 p-2 my-2 flex flex-col gap-1 text-left">
+              <div className="flex items-center gap-1.5 text-gray-300">
+                <MapPin className="w-3 h-3 text-cyan-400 shrink-0" />
+                <span className="text-[9px] font-medium text-gray-200 truncate">
+                  {location}
+                </span>
               </div>
-
-              {/* Right Column: ID Badge & Status Pill */}
-              <div className="col-span-5 flex flex-col gap-1.5 items-end text-right">
-                {/* ID Number Badge */}
-                <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#181B22]/90 border border-[#525B6C] shadow-sm">
-                  <User className="w-2.5 h-2.5 text-[#9CA3AF]" />
-                  <span 
-                    className="font-mono font-bold text-[8.5px] text-[#F3F4F6] tracking-wider"
-                    style={{ textShadow: '0 -1px 0 rgba(0,0,0,0.9), 0 1px 1px rgba(255,255,255,0.25)' }}
-                  >
-                    #NK-2026
-                  </span>
-                </div>
-
-                {/* Status Pill */}
-                <div className="flex flex-col items-end">
-                  <span className="text-[7px] font-mono uppercase text-[#9CA3AF] font-bold tracking-wider -mb-0.5">
-                    STATUS
-                  </span>
-                  <span className="px-2 py-0.5 rounded-full bg-[#243324] border border-[#3E5C3E] text-[#86EFAC] font-mono font-bold text-[8px] tracking-wider shadow-sm">
-                    {availability.includes('Available') ? 'AVAILABLE' : 'ACTIVE'}
-                  </span>
-                </div>
+              <div className="flex items-center gap-1.5 text-gray-300">
+                <Mail className="w-3 h-3 text-cyan-400 shrink-0" />
+                <span className="text-[9px] font-medium text-gray-200 truncate">
+                  {email}
+                </span>
               </div>
             </div>
 
-            {/* 5. BOTTOM BAR: QR CODE PASS & WEBSITE URL */}
-            <div className="w-full mt-2 pt-2 pb-0.5 flex items-center justify-between px-1 border-t border-[#4E5666]/70">
-              {/* Left QR Code Box */}
-              <div className="flex items-center gap-1.5">
-                <div className="p-0.5 rounded-sm bg-[#F3F4F6] shadow-sm flex items-center justify-center">
-                  <QrCode className="w-5 h-5 text-[#111317]" />
-                </div>
-                <div className="flex flex-col text-left leading-none">
-                  <span 
-                    className="text-[7.5px] font-mono text-[#F3F4F6] font-bold uppercase tracking-wider"
-                    style={{ textShadow: '0 -1px 0 rgba(0,0,0,0.9)' }}
-                  >
-                    VERIFIED
-                  </span>
-                  <span className="text-[7px] font-mono text-[#9CA3AF] font-medium uppercase tracking-wider">
-                    PASS
-                  </span>
-                </div>
+            {/* ID Chip + Status Pill Row */}
+            <div className="w-full flex items-center justify-between px-1 mb-2">
+              {/* ID Chip */}
+              <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-300">
+                <User className="w-2.5 h-2.5 text-gray-400" />
+                <span className="font-mono font-bold text-[8.5px] text-gray-200 tracking-wider">
+                  #NK-2026
+                </span>
               </div>
 
-              {/* Right Website URL */}
-              <span 
-                className="text-[9.5px] font-mono font-semibold text-[#D1D5DB] tracking-wide"
-                style={{ textShadow: '0 -1px 0 rgba(0,0,0,0.8), 0 1px 1px rgba(255,255,255,0.2)' }}
-              >
+              {/* Status Pill */}
+              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="font-mono font-semibold text-[8px] tracking-wider text-emerald-300 uppercase">
+                  {isAvailable ? 'AVAILABLE' : 'ACTIVE'}
+                </span>
+              </div>
+            </div>
+
+            {/* Bottom Row: QR Code + Website Tagline */}
+            <div className="w-full pt-1.5 border-t border-white/10 flex items-center justify-between px-1">
+              <div className="flex items-center gap-1.5">
+                <div className="p-0.5 rounded-md bg-white shadow-sm flex items-center justify-center">
+                  <QrCode className="w-4 h-4 text-[#0B0B0F]" />
+                </div>
+                <span className="text-[8px] font-mono text-gray-400 tracking-wider uppercase font-semibold">
+                  PASS
+                </span>
+              </div>
+
+              <span className="text-[9.5px] font-mono font-semibold text-gray-300 tracking-wide">
                 www.naveen.dev
               </span>
             </div>
-
           </div>
-
-          {/* Brushed Metal Fine Horizontal Grain Lines Overlay */}
-          <div 
-            className="absolute inset-0 rounded-[28px] pointer-events-none opacity-40 mix-blend-overlay z-10"
-            style={{
-              backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0,0,0,0.15) 1px, rgba(0,0,0,0.15) 2px)',
-            }}
-          />
-
-          {/* Metal Specular Highlight Sheen */}
-          <div className="absolute inset-0 rounded-[28px] bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none z-30 opacity-60 group-hover:opacity-90 transition-opacity duration-500" />
         </div>
       </motion.div>
     </div>
   );
 };
-
-
-
-
-
-
-
-
-

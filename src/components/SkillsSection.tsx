@@ -88,34 +88,32 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ onSelectSkill }) =
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 6 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-semibold text-cyan-300 uppercase tracking-widest mb-4 shadow-[0_0_20px_rgba(6,182,212,0.15)]"
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-pill border border-white/15 text-xs font-semibold text-gray-300 uppercase tracking-widest mb-4 shadow-[0_0_20px_rgba(255,255,255,0.06)]"
           >
             <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-            <span>Learning Modules & Competencies</span>
+            <span className="font-dirtyline tracking-wider">Learning Modules & Competencies</span>
           </motion.div>
 
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 6 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight"
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+            className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight"
           >
-            Upgrade Your Skills for a{' '}
-            <span className="text-gradient-cyan bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Brighter Career
-            </span>
+            Upgrade Your Skills for a Brighter Career
           </motion.h2>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 6 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-gray-400 text-sm sm:text-base mt-4 leading-relaxed max-w-2xl mx-auto font-normal"
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            className="text-gray-400 text-sm sm:text-base mt-4 leading-relaxed max-w-2xl mx-auto font-normal font-body"
           >
             Industry-focused learning paths with hands-on projects and real-world practice.
           </motion.p>
@@ -123,23 +121,23 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ onSelectSkill }) =
 
         {/* Filter Tabs Bar (Horizontal scrolling / graceful wrap) */}
         <div className="flex items-center justify-center mb-12">
-          <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-2xl bg-black/40 backdrop-blur-xl border border-white/10 max-w-full overflow-x-auto">
+          <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-full glass-nav max-w-full overflow-x-auto">
             {filterTabs.map((tab) => {
               const isActive = activeTab === tab;
               return (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`relative px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 cursor-pointer whitespace-nowrap ${
+                  className={`relative px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 cursor-pointer whitespace-nowrap ${
                     isActive
-                      ? 'text-white font-semibold shadow-lg shadow-cyan-500/25'
+                      ? 'text-black font-semibold'
                       : 'text-gray-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
                   {isActive && (
                     <motion.div
                       layoutId="activeSkillTab"
-                      className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 rounded-xl border border-cyan-400/40"
+                      className="absolute inset-0 bg-white rounded-full shadow-[0_0_20px_rgba(255,255,255,0.25)]"
                       transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                     />
                   )}

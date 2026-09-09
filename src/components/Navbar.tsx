@@ -49,14 +49,14 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
               href="#home"
               className="flex items-center gap-2.5 group cursor-pointer"
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-purple-600 p-[1px] shadow-lg shadow-cyan-500/20 transition-transform duration-300 group-hover:scale-105">
-                <div className="w-full h-full bg-[#0B0B0F] rounded-[11px] flex items-center justify-center">
-                  <Terminal className="w-5 h-5 text-cyan-400 group-hover:text-white transition-colors duration-300" />
+              <div className="w-10 h-10 rounded-xl glass-card p-[1px] border border-white/20 shadow-md transition-transform duration-300 group-hover:scale-105">
+                <div className="w-full h-full bg-[#0B0B0F]/90 rounded-[11px] flex items-center justify-center">
+                  <Terminal className="w-5 h-5 text-white group-hover:text-cyan-300 transition-colors duration-300" />
                 </div>
               </div>
               <div className="flex flex-col">
-                <span className="font-bold text-base tracking-wider text-white group-hover:text-cyan-300 transition-colors">
-                  NAVEEN<span className="text-cyan-400">.DEV</span>
+                <span className="font-bold text-base tracking-wider text-white group-hover:text-gray-200 transition-colors">
+                  NAVEEN<span className="text-gray-400">.DEV</span>
                 </span>
                 <span className="text-[10px] font-mono text-gray-400 -mt-1">
                   QA & Full-Stack
@@ -77,14 +77,14 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
                     {isActive && (
                       <motion.div
                         layoutId="activeNavTab"
-                        className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-purple-500/20 border border-cyan-500/40 rounded-full shadow-[0_0_15px_rgba(6,182,212,0.25)]"
+                        className="absolute inset-0 bg-white/10 border border-white/20 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.12)]"
                         transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                       />
                     )}
                     <span
                       className={
                         isActive
-                          ? 'text-cyan-300 font-semibold relative z-10'
+                          ? 'text-white font-semibold relative z-10'
                           : 'text-gray-400 hover:text-white relative z-10 transition-colors'
                       }
                     >
@@ -99,9 +99,9 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
             <div className="flex items-center gap-3">
               <a
                 href="#contact"
-                className="relative inline-flex items-center justify-center gap-2 px-5 py-2 text-xs font-semibold uppercase tracking-wider text-white bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 rounded-full shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/50 hover:scale-105 transition-all duration-300"
+                className="relative inline-flex items-center justify-center gap-2 px-5 py-2 text-xs font-semibold uppercase tracking-wider text-black bg-white rounded-full shadow-[0_0_20px_rgba(255,255,255,0.25)] hover:shadow-[0_0_30px_rgba(255,255,255,0.45)] hover:scale-105 transition-all duration-300"
               >
-                <Sparkles className="w-3.5 h-3.5" />
+                <Sparkles className="w-3.5 h-3.5 text-black" />
                 <span>Get In Touch</span>
               </a>
             </div>
@@ -126,22 +126,22 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.85, opacity: 0 }}
               transition={{ type: 'spring', stiffness: 450, damping: 32 }}
-              className={`bg-black/90 backdrop-blur-xl text-white rounded-full border border-cyan-500/30 shadow-[0_10px_30px_rgba(0,0,0,0.9)] flex items-center justify-between cursor-pointer select-none transition-all duration-300 ${
+              className={`bg-[#0C0C11]/90 backdrop-blur-2xl text-white rounded-full border border-white/15 shadow-[0_10px_30px_rgba(0,0,0,0.9)] flex items-center justify-between cursor-pointer select-none transition-all duration-300 ${
                 scrolled
                   ? 'w-[160px] h-8 px-3 text-xs'
                   : 'w-[250px] h-10 px-4 text-xs'
               }`}
             >
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
                 <span className="font-bold tracking-wider text-white font-mono text-xs">
                   {scrolled ? sectionLabel : 'NAVEEN.DEV'}
                 </span>
               </div>
 
-              <div className="flex items-center gap-1 text-[10px] text-cyan-300 font-mono">
+              <div className="flex items-center gap-1 text-[10px] text-gray-300 font-mono">
                 <span>MENU</span>
-                <ChevronDown className="w-3.5 h-3.5 text-cyan-400" />
+                <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
               </div>
             </motion.div>
           ) : (
@@ -151,14 +151,14 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
               animate={{ scale: 1, opacity: 1, borderRadius: '28px' }}
               exit={{ scale: 0.85, opacity: 0, borderRadius: '24px' }}
               transition={{ type: 'spring', stiffness: 420, damping: 30 }}
-              className="w-[92vw] max-w-sm rounded-[28px] p-4 bg-black/95 backdrop-blur-2xl border border-cyan-500/40 shadow-[0_25px_60px_rgba(0,0,0,1)] flex flex-col gap-3 text-white"
+              className="w-[92vw] max-w-sm rounded-[28px] p-4 bg-[#0C0C11]/95 backdrop-blur-2xl border border-white/20 shadow-[0_25px_60px_rgba(0,0,0,1)] flex flex-col gap-3 text-white"
             >
               {/* Header */}
               <div className="flex items-center justify-between pb-2 border-b border-white/10">
                 <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full bg-cyan-400" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-white" />
                   <span className="font-bold text-xs tracking-wider text-white font-mono">
-                    <span className="text-cyan-400">NAVIGATION</span> • {sectionLabel}
+                    <span>NAVIGATION</span> • {sectionLabel}
                   </span>
                 </div>
 
@@ -181,7 +181,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
                       onClick={() => setMobileMenuOpen(false)}
                       className={`px-3 py-2 rounded-xl text-xs font-semibold text-center transition-all border ${
                         isActive
-                          ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/50 shadow-sm'
+                          ? 'bg-white/15 text-white border-white/30 shadow-sm'
                           : 'bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white border-white/10'
                       }`}
                     >
@@ -195,7 +195,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
               <a
                 href="#contact"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full text-center py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 text-white font-semibold text-xs uppercase tracking-wider shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-1.5"
+                className="w-full text-center py-2.5 rounded-xl bg-white text-black font-semibold text-xs uppercase tracking-wider shadow-lg shadow-white/20 flex items-center justify-center gap-1.5"
               >
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>Contact Me</span>

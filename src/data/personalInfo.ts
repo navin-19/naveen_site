@@ -32,7 +32,7 @@ export interface PersonalInfo {
 
 export const personalInfo: PersonalInfo = {
   name: "Naveenkumar Boominathan",
-  displayName: "Naveen Kumar",
+  displayName: "NAVEENKUMAR",
   realTitles: ["QA Automation Engineer / SDET", "Python Developer"],
   displayTitles: [
     "Senior Full-Stack Developer",

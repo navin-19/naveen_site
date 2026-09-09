@@ -86,27 +86,34 @@ export const ContactSection: React.FC = () => {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 6 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-semibold text-cyan-300 uppercase tracking-widest mb-4"
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-pill border border-white/15 text-xs font-semibold text-gray-300 uppercase tracking-widest mb-4"
           >
-            <MessageSquare className="w-3.5 h-3.5" />
-            <span>Get In Touch</span>
+            <MessageSquare className="w-3.5 h-3.5 text-cyan-400" />
+            <span className="font-dirtyline tracking-wider">Get In Touch</span>
           </motion.div>
 
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 6 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight"
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+            className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight"
           >
-            Let's Discuss <span className="text-gradient-cyan">Your Next Project</span>
+            Let's Discuss Your Next Project
           </motion.h2>
-          <p className="text-gray-400 text-sm sm:text-base mt-3">
+          <motion.p
+            initial={{ opacity: 0, y: 6 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            className="text-gray-400 text-sm sm:text-base mt-3 font-body font-normal"
+          >
             Open for full-time QA Automation, SDET, and Python Developer roles. Feel free to reach out directly.
-          </p>
+          </motion.p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
@@ -330,15 +337,15 @@ export const ContactSection: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-4 rounded-2xl bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 text-white font-bold text-sm tracking-wider uppercase flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(6,182,212,0.3)] hover:shadow-[0_0_45px_rgba(6,182,212,0.5)] hover:scale-[1.01] transition-all cursor-pointer disabled:opacity-50"
+                  className="w-full py-4 rounded-2xl bg-white text-black font-bold text-sm tracking-wider uppercase flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(255,255,255,0.2)] hover:shadow-[0_0_35px_rgba(255,255,255,0.35)] hover:scale-[1.01] transition-all cursor-pointer disabled:opacity-50"
                 >
                   {isSubmitting ? (
-                    <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
                   ) : (
                     <>
-                      <Send className="w-4 h-4" />
+                      <Send className="w-4 h-4 text-black" />
                       <span>Send Message</span>
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="w-4 h-4 text-black" />
                     </>
                   )}
                 </button>

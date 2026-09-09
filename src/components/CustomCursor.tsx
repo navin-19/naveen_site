@@ -53,17 +53,17 @@ export const CustomCursor: React.FC = () => {
           width: 36,
           height: 36,
           border: isHovered
-            ? '1.5px solid rgba(6, 182, 212, 0.8)'
+            ? '1.5px solid rgba(255, 255, 255, 0.8)'
             : '1.5px solid rgba(255, 255, 255, 0.25)',
           background: isHovered
-            ? 'radial-gradient(circle, rgba(6, 182, 212, 0.2) 0%, rgba(139, 92, 246, 0.05) 100%)'
+            ? 'radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.02) 100%)'
             : 'transparent',
-          boxShadow: isHovered ? '0 0 20px rgba(6, 182, 212, 0.5)' : 'none',
+          boxShadow: isHovered ? '0 0 20px rgba(255, 255, 255, 0.35)' : 'none',
         }}
       />
       {/* Tiny sharp center dot */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-50 rounded-full bg-cyan-400"
+        className="fixed top-0 left-0 pointer-events-none z-50 rounded-full bg-white"
         animate={{
           x: mousePosition.x - 3,
           y: mousePosition.y - 3,
@@ -73,7 +73,7 @@ export const CustomCursor: React.FC = () => {
         style={{
           width: 6,
           height: 6,
-          boxShadow: '0 0 8px #06B6D4',
+          boxShadow: '0 0 10px rgba(255, 255, 255, 0.9)',
         }}
       />
     </>

@@ -64,7 +64,7 @@ export const SkillModal: React.FC<SkillModalProps> = ({ skill, onClose }) => {
                 <Layers className="w-3 h-3" />
                 <span>{skill.category}</span>
               </div>
-              <h3 className="text-2xl font-bold text-white tracking-wide">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                 {skill.name}
               </h3>
             </div>

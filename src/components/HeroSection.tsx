@@ -46,7 +46,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ activeSection }) => {
 
     const link = document.createElement('a');
     link.href = personalInfo.resumeUrl;
-    link.download = 'Naveen_Kumar_Resume.pdf';
+    link.download = 'Naveenkumar_Boominathan_Resume.pdf';
     link.target = '_blank';
     document.body.appendChild(link);
     link.click();
@@ -84,57 +84,55 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ activeSection }) => {
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center justify-items-center z-10">
         {/* Left Column: Heading, Titles & CTAs */}
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
           className="lg:col-span-6 flex flex-col items-center text-center lg:items-start lg:text-left w-full"
         >
           {/* Status Badge */}
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-pill border border-cyan-500/40 text-xs sm:text-sm font-medium text-cyan-300 mb-6 shadow-[0_0_25px_rgba(6,182,212,0.25)] hover:scale-105 transition-transform cursor-default"
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-pill border border-white/15 text-xs sm:text-sm font-medium text-gray-200 mb-6 shadow-[0_0_20px_rgba(255,255,255,0.06)] hover:scale-105 transition-transform cursor-default"
           >
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
-            <Sparkles className="w-4 h-4 text-cyan-400" />
-            <span>{personalInfo.availability}</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
+            <span className="font-dirtyline tracking-wider">{personalInfo.availability}</span>
           </motion.div>
 
           {/* Subtitle / Intro */}
           <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="text-base sm:text-lg font-mono text-cyan-400 tracking-wider mb-2 font-semibold"
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+            className="text-base sm:text-lg font-mono text-gray-400 tracking-wider mb-2 font-medium"
           >
             Hello, I'm
           </motion.span>
 
           {/* Animated Name */}
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-4 leading-tight drop-shadow-lg"
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white mb-4 leading-[1.05]"
           >
-            <span className="text-gradient-cyan bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-              {personalInfo.displayName}
-            </span>
+            {personalInfo.displayName}
           </motion.h1>
 
           {/* Dual Title Badges: Full-Stack & Test Automation */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 text-sm sm:text-base font-semibold mb-6"
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
+            className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 text-sm sm:text-base font-medium mb-6"
           >
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-300">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full glass-panel border border-white/10 text-gray-200">
               <ShieldCheck className="w-4 h-4 text-cyan-400" />
               Test Automation Architect
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-purple-500/10 border border-purple-500/30 text-purple-300">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full glass-panel border border-white/10 text-gray-200">
               <Code2 className="w-4 h-4 text-purple-400" />
               Senior Full-Stack Developer
             </span>
@@ -142,56 +140,56 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ activeSection }) => {
 
           {/* Short Bio Tagline */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            className="text-gray-300 text-base sm:text-lg leading-relaxed max-w-xl mb-8 font-normal"
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+            className="text-gray-300 text-base sm:text-lg leading-relaxed max-w-xl mb-8 font-normal font-body"
           >
             {personalInfo.shortBio}
           </motion.p>
 
           {/* Action CTAs */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
             className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-10 w-full sm:w-auto"
           >
             {/* View Projects CTA */}
             <a
               href="#projects"
-              className="group flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold text-sm sm:text-base tracking-wide shadow-[0_0_30px_rgba(6,182,212,0.35)] hover:shadow-[0_0_45px_rgba(6,182,212,0.55)] hover:scale-[1.03] transition-all duration-300 cursor-pointer"
+              className="group flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white text-black font-semibold text-sm sm:text-base tracking-wide shadow-[0_0_30px_rgba(255,255,255,0.25)] hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] hover:scale-[1.02] transition-all duration-300 cursor-pointer"
             >
-              <FolderKanban className="w-5 h-5 text-white" />
+              <FolderKanban className="w-5 h-5 text-black" />
               <span>View Projects</span>
-              <ArrowRight className="w-4 h-4 text-cyan-200 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 text-black group-hover:translate-x-1 transition-transform" />
             </a>
 
             {/* Download Resume with Confetti */}
             <button
               onClick={handleDownloadResume}
-              className="group relative flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl glass-panel border border-white/20 text-white font-semibold text-sm sm:text-base hover:bg-white/10 hover:border-cyan-400/50 hover:shadow-[0_0_30px_rgba(6,182,212,0.25)] hover:scale-[1.03] transition-all duration-300 cursor-pointer overflow-hidden"
+              className="group relative flex items-center justify-center gap-2 px-6 py-3.5 rounded-full glass-card border border-white/20 text-white font-semibold text-sm sm:text-base hover:bg-white/10 hover:border-white/40 hover:shadow-[0_0_30px_rgba(255,255,255,0.15)] hover:scale-[1.02] transition-all duration-300 cursor-pointer overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-              <Download className="w-5 h-5 text-cyan-400 group-hover:-translate-y-0.5 transition-transform" />
+              <Download className="w-5 h-5 text-white group-hover:-translate-y-0.5 transition-transform" />
               <span>Download Resume</span>
             </button>
 
             {/* Contact Me CTA */}
             <a
               href="#contact"
-              className="flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-white/5 border border-white/10 text-gray-300 font-semibold text-sm hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+              className="flex items-center justify-center gap-2 px-5 py-3.5 rounded-full glass-panel border border-white/10 text-gray-300 font-semibold text-sm hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300"
             >
-              <Mail className="w-4 h-4 text-purple-400" />
+              <Mail className="w-4 h-4 text-gray-300" />
               <span>Contact Me</span>
             </a>
           </motion.div>
 
           {/* Social Links & Quick Connect */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
             className="flex items-center justify-center lg:justify-start gap-3"
           >
             <span className="text-xs font-mono uppercase tracking-widest text-slate-400 font-semibold mr-1">

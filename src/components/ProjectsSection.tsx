@@ -27,27 +27,34 @@ export const ProjectsSection: React.FC = () => {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 6 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-semibold text-cyan-300 uppercase tracking-widest mb-4"
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-pill border border-white/15 text-xs font-semibold text-gray-300 uppercase tracking-widest mb-4"
           >
-            <FolderKanban className="w-3.5 h-3.5" />
-            <span>Case Studies & Projects</span>
+            <FolderKanban className="w-3.5 h-3.5 text-cyan-400" />
+            <span className="font-dirtyline tracking-wider">Case Studies & Projects</span>
           </motion.div>
 
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 6 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight"
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+            className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight"
           >
-            Featured <span className="text-gradient-cyan">Engineering Work</span>
+            Featured Engineering Work
           </motion.h2>
-          <p className="text-gray-400 text-sm sm:text-base mt-3">
+          <motion.p
+            initial={{ opacity: 0, y: 6 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            className="text-gray-400 text-sm sm:text-base mt-3 font-body font-normal"
+          >
             In-depth case studies showcasing problem analysis, automation frameworks, and measurable outcomes.
-          </p>
+          </motion.p>
         </div>
 
         {/* Case Study Cards Grid */}

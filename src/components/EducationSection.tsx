@@ -67,43 +67,35 @@ export const EducationSection: React.FC = () => {
         {/* Hero Heading */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 6 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-semibold text-cyan-300 uppercase tracking-widest mb-4 shadow-[0_0_20px_rgba(6,182,212,0.15)]"
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-pill border border-white/15 text-xs font-semibold text-gray-300 uppercase tracking-widest mb-4 shadow-[0_0_20px_rgba(255,255,255,0.06)]"
           >
             <GraduationCap className="w-3.5 h-3.5 text-cyan-400" />
-            <span>MY LEARNING JOURNEY</span>
+            <span className="font-dirtyline tracking-wider">MY LEARNING JOURNEY</span>
           </motion.div>
 
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 6 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight"
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+            className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight"
           >
-            Education <span className="text-cyan-400">&</span> Certifications
+            Education & Certifications
           </motion.h2>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 6 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-gray-400 text-sm sm:text-base mt-3 font-normal"
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            className="text-gray-400 text-sm sm:text-base mt-3 font-normal font-body"
           >
             Building skills for a better tomorrow
           </motion.p>
-
-          {/* Small Accent Divider Line */}
-          <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="w-16 h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 mx-auto rounded-full mt-4 shadow-[0_0_10px_rgba(6,182,212,0.5)]"
-          />
         </div>
 
         {/* Two-Column Layout */}
