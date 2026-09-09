@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import gsap from 'gsap';
 
@@ -9,6 +9,18 @@ export const AnimatedBackground: React.FC = () => {
   const prefersReducedMotion = useReducedMotion();
   const parallaxLayerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(
+        window.innerWidth < 768 || window.matchMedia('(pointer: coarse)').matches
+      );
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile, { passive: true });
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Reliable Autoplay Trigger for Background Video
   useEffect(() => {
@@ -30,9 +42,9 @@ export const AnimatedBackground: React.FC = () => {
     }
   }, [prefersReducedMotion]);
 
-  // Subtle GSAP-based parallax / mouse tracking
+  // Optimized GSAP Parallax (only runs on desktop fine-pointer devices when needed)
   useEffect(() => {
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion || isMobile) return;
 
     let targetX = 0;
     let targetY = 0;
@@ -44,21 +56,27 @@ export const AnimatedBackground: React.FC = () => {
       const { innerWidth, innerHeight } = window;
       const offsetX = (e.clientX - innerWidth / 2) / (innerWidth / 2);
       const offsetY = (e.clientY - innerHeight / 2) / (innerHeight / 2);
-      targetX = offsetX * 20;
-      targetY = offsetY * 20;
+      targetX = offsetX * 16;
+      targetY = offsetY * 16;
     };
 
     const ticker = () => {
       if (!isRunning) return;
-      currentX += (targetX - currentX) * 0.06;
-      currentY += (targetY - currentY) * 0.06;
+      const diffX = targetX - currentX;
+      const diffY = targetY - currentY;
 
-      if (parallaxLayerRef.current) {
-        gsap.set(parallaxLayerRef.current, {
-          x: currentX,
-          y: currentY,
-          force3D: true,
-        });
+      // Only update DOM when movement is noticeable
+      if (Math.abs(diffX) > 0.05 || Math.abs(diffY) > 0.05) {
+        currentX += diffX * 0.06;
+        currentY += diffY * 0.06;
+
+        if (parallaxLayerRef.current) {
+          gsap.set(parallaxLayerRef.current, {
+            x: currentX,
+            y: currentY,
+            force3D: true,
+          });
+        }
       }
     };
 
@@ -70,47 +88,41 @@ export const AnimatedBackground: React.FC = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       gsap.ticker.remove(ticker);
     };
-  }, [prefersReducedMotion]);
+  }, [prefersReducedMotion, isMobile]);
 
-  // Animation configurations for the drifting gradient blobs
-  const blob1Animation = prefersReducedMotion
-    ? {}
-    : {
-        x: [0, 80, -40, 60, 0],
-        y: [0, -60, 50, -30, 0],
-        scale: [1, 1.18, 0.92, 1.1, 1],
-      };
+  // Animation configurations for the drifting gradient blobs (desktop only)
+  const shouldAnimateBlobs = !prefersReducedMotion && !isMobile;
 
-  const blob2Animation = prefersReducedMotion
-    ? {}
-    : {
-        x: [0, -90, 50, -70, 0],
-        y: [0, 70, -50, 40, 0],
-        scale: [1, 0.88, 1.15, 0.95, 1],
-      };
+  const blob1Animation = shouldAnimateBlobs
+    ? {
+        x: [0, 60, -30, 45, 0],
+        y: [0, -45, 35, -20, 0],
+        scale: [1, 1.12, 0.95, 1.08, 1],
+      }
+    : {};
 
-  const blob3Animation = prefersReducedMotion
-    ? {}
-    : {
-        x: [0, 60, -80, 40, 0],
-        y: [0, 80, -40, 60, 0],
-        scale: [1, 1.12, 0.9, 1.08, 1],
-      };
+  const blob2Animation = shouldAnimateBlobs
+    ? {
+        x: [0, -70, 40, -50, 0],
+        y: [0, 50, -40, 30, 0],
+        scale: [1, 0.92, 1.1, 0.96, 1],
+      }
+    : {};
 
-  const blob4Animation = prefersReducedMotion
-    ? {}
-    : {
-        x: [0, -70, 60, -50, 0],
-        y: [0, -50, 60, -30, 0],
-        scale: [1, 0.92, 1.14, 0.98, 1],
-      };
+  const blob3Animation = shouldAnimateBlobs
+    ? {
+        x: [0, 45, -60, 30, 0],
+        y: [0, 60, -30, 45, 0],
+        scale: [1, 1.08, 0.92, 1.05, 1],
+      }
+    : {};
 
   return (
     <div
       aria-hidden="true"
       className="fixed inset-0 pointer-events-none overflow-hidden z-0 bg-[#0B0B0F]"
     >
-      {/* 0. Full-bleed Looping Background Video (Skipped if prefersReducedMotion) */}
+      {/* 0. Full-bleed Looping Background Video */}
       {!prefersReducedMotion && (
         <>
           <video
@@ -122,14 +134,14 @@ export const AnimatedBackground: React.FC = () => {
             playsInline
             preload="auto"
             crossOrigin="anonymous"
-            className="absolute inset-0 w-full h-full object-cover scale-[1.05] origin-center opacity-60"
+            className="absolute inset-0 w-full h-full object-cover scale-[1.03] origin-center opacity-55"
           />
           <div className="absolute inset-0 bg-[#0B0B0F]/70" />
         </>
       )}
 
       <div ref={parallaxLayerRef} className="absolute inset-0 will-change-transform">
-        {/* 1. Large Animated Gradient Blobs */}
+        {/* 1. Optimized Ambient Gradient Blobs */}
         {/* Blob 1: Cyan / Neon Teal (Top-Left) */}
         <motion.div
           animate={blob1Animation}
@@ -139,7 +151,7 @@ export const AnimatedBackground: React.FC = () => {
             repeatType: 'mirror',
             ease: 'easeInOut',
           }}
-          className="absolute -top-[10%] -left-[10%] w-[650px] h-[650px] sm:w-[750px] sm:h-[750px] rounded-full bg-gradient-to-tr from-cyan-500/10 to-blue-500/6 blur-[130px] sm:blur-[160px] transform-gpu will-change-transform"
+          className="absolute -top-[10%] -left-[10%] w-[450px] h-[450px] sm:w-[700px] sm:h-[700px] rounded-full bg-gradient-to-tr from-cyan-500/10 to-blue-500/6 blur-[80px] sm:blur-[140px] transform-gpu"
         />
 
         {/* Blob 2: Violet / Royal Purple (Top-Right) */}
@@ -151,10 +163,10 @@ export const AnimatedBackground: React.FC = () => {
             repeatType: 'mirror',
             ease: 'easeInOut',
           }}
-          className="absolute -top-[5%] -right-[10%] w-[600px] h-[600px] sm:w-[700px] sm:h-[700px] rounded-full bg-gradient-to-bl from-purple-500/10 to-indigo-600/6 blur-[130px] sm:blur-[160px] transform-gpu will-change-transform"
+          className="absolute -top-[5%] -right-[10%] w-[400px] h-[400px] sm:w-[650px] sm:h-[650px] rounded-full bg-gradient-to-bl from-purple-500/10 to-indigo-600/6 blur-[80px] sm:blur-[140px] transform-gpu"
         />
 
-        {/* Blob 3: Deep Sky Blue / Indigo (Center-Left / Mid-Page) */}
+        {/* Blob 3: Mid-page ambient wash (Hidden on small mobile to conserve GPU fill-rate) */}
         <motion.div
           animate={blob3Animation}
           transition={{
@@ -163,19 +175,7 @@ export const AnimatedBackground: React.FC = () => {
             repeatType: 'mirror',
             ease: 'easeInOut',
           }}
-          className="absolute top-[45%] -left-[15%] w-[550px] h-[550px] sm:w-[680px] sm:h-[680px] rounded-full bg-gradient-to-r from-blue-600/8 to-cyan-400/6 blur-[130px] sm:blur-[160px] transform-gpu will-change-transform"
-        />
-
-        {/* Blob 4: Emerald / Teal / Purple (Bottom-Right) */}
-        <motion.div
-          animate={blob4Animation}
-          transition={{
-            duration: 28,
-            repeat: Infinity,
-            repeatType: 'mirror',
-            ease: 'easeInOut',
-          }}
-          className="absolute bottom-[-10%] -right-[10%] w-[650px] h-[650px] sm:w-[750px] sm:h-[750px] rounded-full bg-gradient-to-tl from-emerald-500/8 via-cyan-500/6 to-purple-600/8 blur-[130px] sm:blur-[160px] transform-gpu will-change-transform"
+          className="hidden sm:block absolute top-[45%] -left-[15%] w-[600px] h-[600px] rounded-full bg-gradient-to-r from-blue-600/8 to-cyan-400/6 blur-[140px] transform-gpu"
         />
 
         {/* 2. Micro Dot Pattern Texture Overlay */}

@@ -54,6 +54,9 @@ export const ProfileIdCard: React.FC<ProfileIdCardProps> = ({
   const rotateZ = useSpring(0, { stiffness: 200, damping: 18 });
 
   useEffect(() => {
+    // Only track 3D tilt on devices with fine pointer (mouse)
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+
     const handleGlobalMouseMove = (e: MouseEvent) => {
       const { innerWidth, innerHeight } = window;
       const offsetX = (e.clientX - innerWidth / 2) / (innerWidth / 2);
@@ -67,7 +70,7 @@ export const ProfileIdCard: React.FC<ProfileIdCardProps> = ({
       rotateZ.set(offsetX * 2);
     };
 
-    window.addEventListener('mousemove', handleGlobalMouseMove);
+    window.addEventListener('mousemove', handleGlobalMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleGlobalMouseMove);
   }, [mouseX, mouseY, rotateX, rotateY, rotateZ]);
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { SkillItem } from '../data/portfolioData';
 import {
@@ -17,31 +17,53 @@ interface SkillModalProps {
 }
 
 export const SkillModal: React.FC<SkillModalProps> = ({ skill, onClose }) => {
+  useEffect(() => {
+    if (!skill) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const handleHashOrNav = () => onClose();
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+
+    window.addEventListener('hashchange', handleHashOrNav);
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('hashchange', handleHashOrNav);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [skill, onClose]);
+
   if (!skill) return null;
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
         {/* Dark blurred backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-black/80 backdrop-blur-xl"
+          className="fixed inset-0 bg-black/80 backdrop-blur-md"
         />
 
         {/* Modal Container */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.85, y: 20 }}
+          initial={{ opacity: 0, scale: 0.9, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.85, y: 20 }}
-          transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+          exit={{ opacity: 0, scale: 0.9, y: 15 }}
+          transition={{ type: 'spring', damping: 28, stiffness: 320 }}
           className="relative w-full max-w-lg rounded-3xl glass-panel-glow p-6 sm:p-8 border border-cyan-500/30 shadow-[0_0_50px_rgba(6,182,212,0.25)] z-10 my-auto"
         >
           {/* Close button */}
           <button
             onClick={onClose}
+            aria-label="Close modal"
             className="absolute top-5 right-5 p-2 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
           >
             <X className="w-5 h-5" />

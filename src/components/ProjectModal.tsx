@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ProjectItem } from '../data/projects';
 import { GithubIcon } from './SocialIcons';
@@ -10,6 +10,7 @@ import {
   Zap,
   AlertCircle,
   Lightbulb,
+  Mail,
 } from 'lucide-react';
 
 interface ProjectModalProps {
@@ -18,31 +19,73 @@ interface ProjectModalProps {
 }
 
 export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
+  // Lock body scroll and listen for navigation/hash events to prevent card overlapping
+  useEffect(() => {
+    if (!project) return;
+
+    // Prevent background scrolling while modal is open
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const handleHashOrNav = () => {
+      onClose();
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashOrNav);
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('hashchange', handleHashOrNav);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [project, onClose]);
+
   if (!project) return null;
+
+  const handleContactClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    onClose();
+    setTimeout(() => {
+      const contactEl = document.getElementById('contact');
+      if (contactEl) {
+        contactEl.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.location.hash = '#contact';
+      }
+    }, 100);
+  };
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
         {/* Dark blurred overlay */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-black/85 backdrop-blur-xl"
+          className="fixed inset-0 bg-black/85 backdrop-blur-md"
         />
 
         {/* Modal Window */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.88, y: 20 }}
+          initial={{ opacity: 0, scale: 0.92, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.88, y: 20 }}
-          transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl glass-panel-glow p-6 sm:p-8 border border-cyan-500/30 shadow-[0_0_50px_rgba(6,182,212,0.25)] z-10 my-auto"
+          exit={{ opacity: 0, scale: 0.92, y: 15 }}
+          transition={{ type: 'spring', damping: 28, stiffness: 320 }}
+          className="relative w-full max-w-3xl max-h-[88vh] overflow-y-auto rounded-3xl glass-panel-glow p-6 sm:p-8 border border-cyan-500/30 shadow-[0_0_50px_rgba(6,182,212,0.25)] z-10 my-auto"
         >
           {/* Close button */}
           <button
             onClick={onClose}
+            aria-label="Close modal"
             className="absolute top-5 right-5 p-2 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-colors z-20 cursor-pointer"
           >
             <X className="w-5 h-5" />
@@ -145,16 +188,25 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
           </div>
 
           {/* CTAs */}
-          <div className="flex flex-wrap gap-4 pt-4 border-t border-white/10">
+          <div className="flex flex-col sm:flex-row items-center gap-3 pt-4 border-t border-white/10">
+            <a
+              href="#contact"
+              onClick={handleContactClick}
+              className="w-full sm:flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 font-semibold text-white text-xs sm:text-sm tracking-wide text-center flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-[1.01] transition-all cursor-pointer"
+            >
+              <Mail className="w-4 h-4" />
+              <span>Get In Touch</span>
+            </a>
+
             {project.githubUrl && (
               <a
                 href={project.githubUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="flex-1 py-3 px-4 rounded-xl glass-panel border border-white/15 font-semibold text-white text-xs sm:text-sm tracking-wide text-center flex items-center justify-center gap-2 hover:bg-white/10 hover:border-cyan-500/40 transition-all"
+                className="w-full sm:flex-1 py-3 px-4 rounded-xl glass-panel border border-white/15 font-semibold text-white text-xs sm:text-sm tracking-wide text-center flex items-center justify-center gap-2 hover:bg-white/10 hover:border-cyan-500/40 transition-all cursor-pointer"
               >
                 <GithubIcon className="w-4 h-4 text-gray-300" />
-                <span>View GitHub Profile</span>
+                <span>View GitHub</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
             )}
