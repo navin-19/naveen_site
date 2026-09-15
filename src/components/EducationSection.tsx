@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { educationData, certificationsData } from '../data/education';
+import { useIsMobile } from '../hooks/useMediaQuery';
 import {
   GraduationCap,
   Award,
@@ -18,6 +19,8 @@ export const EducationSection: React.FC = () => {
   const edu = educationData[0];
   const sectionRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+  const freezeOrbs = prefersReducedMotion || isMobile;
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -27,12 +30,12 @@ export const EducationSection: React.FC = () => {
   const orbY = useTransform(
     scrollYProgress,
     [0, 1],
-    prefersReducedMotion ? ['0%', '0%'] : ['8%', '-15%']
+    freezeOrbs ? ['0%', '0%'] : ['8%', '-15%']
   );
   const orbY2 = useTransform(
     scrollYProgress,
     [0, 1],
-    prefersReducedMotion ? ['0%', '0%'] : ['-8%', '15%']
+    freezeOrbs ? ['0%', '0%'] : ['-8%', '15%']
   );
 
   return (
@@ -43,12 +46,12 @@ export const EducationSection: React.FC = () => {
     >
       {/* Decorative Soft Glowing Background Spotlights in Corners */}
       <motion.div
-        className="absolute top-10 left-10 w-[420px] h-[420px] bg-blue-500/8 rounded-full blur-[140px] pointer-events-none"
-        style={{ y: orbY, willChange: 'transform' }}
+        className="hidden md:block absolute top-10 left-10 w-[420px] h-[420px] bg-blue-500/8 rounded-full blur-[140px] pointer-events-none"
+        style={{ y: orbY }}
       />
       <motion.div
-        className="absolute bottom-10 right-10 w-[420px] h-[420px] bg-purple-500/8 rounded-full blur-[140px] pointer-events-none"
-        style={{ y: orbY2, willChange: 'transform' }}
+        className="hidden md:block absolute bottom-10 right-10 w-[420px] h-[420px] bg-purple-500/8 rounded-full blur-[140px] pointer-events-none"
+        style={{ y: orbY2 }}
       />
 
       <div className="max-w-6xl mx-auto relative z-10">
@@ -104,7 +107,7 @@ export const EducationSection: React.FC = () => {
           {/* LEFT COLUMN: Large Formal Education Card (5 cols)     */}
           {/* ---------------------------------------------------- */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: isMobile ? -12 : -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
@@ -188,7 +191,7 @@ export const EducationSection: React.FC = () => {
           {/* RIGHT COLUMN: Stacked Industry Certifications (7 cols)*/}
           {/* ---------------------------------------------------- */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: isMobile ? 12 : 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}

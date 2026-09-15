@@ -230,6 +230,52 @@
   animation: spinSlow 30s linear infinite;
 }
 
+/* Mobile: cheaper glass (backdrop-filter is a major GPU cost) */
+@media (max-width: 767px) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .liquid-glass,
+  .glass-panel,
+  .glass-card,
+  .glass-pill {
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .liquid-glass-strong,
+  .glass-nav,
+  .glass-panel-glow {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  [class*="backdrop-blur"] {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+
+  .animate-pulse-glow,
+  .animate-spin-slow {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-float,
+  .animate-pulse-glow,
+  .animate-spin-slow,
+  .animate-ping,
+  .animate-pulse {
+    animation: none !important;
+  }
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

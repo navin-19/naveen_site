@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
-import confetti from 'canvas-confetti';
 import { personalInfo } from '../data/personalInfo';
+import { useIsMobile } from '../hooks/useMediaQuery';
 import { ProfileIdCard } from './ProfileIdCard';
 import { GithubIcon, LinkedinIcon } from './SocialIcons';
 import {
@@ -22,26 +22,29 @@ interface HeroSectionProps {
 export const HeroSection: React.FC<HeroSectionProps> = ({ activeSection }) => {
   const sectionRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end start'],
   });
 
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  const bgParallaxEnd = prefersReducedMotion ? '0%' : isMobile ? '15%' : '40%';
-  const glowParallaxEnd = prefersReducedMotion ? '0%' : isMobile ? '10%' : '25%';
+  const enableParallax = !prefersReducedMotion && !isMobile;
+  const bgParallaxEnd = enableParallax ? '40%' : '0%';
+  const glowParallaxEnd = enableParallax ? '25%' : '0%';
 
   const bgY = useTransform(scrollYProgress, [0, 1], ['0%', bgParallaxEnd]);
   const glowY = useTransform(scrollYProgress, [0, 1], ['0%', glowParallaxEnd]);
 
   // Confetti burst on "Download Resume" action
   const handleDownloadResume = () => {
-    confetti({
-      particleCount: 120,
-      spread: 80,
-      origin: { y: 0.6 },
-      colors: ['#06B6D4', '#3B82F6', '#8B5CF6', '#10B981'],
+    void import('canvas-confetti').then((mod) => {
+      mod.default({
+        particleCount: 120,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ['#06B6D4', '#3B82F6', '#8B5CF6', '#10B981'],
+      });
     });
 
     const link = document.createElement('a');
@@ -62,10 +65,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ activeSection }) => {
       {/* Soft Ambient Hero Glow Layers */}
       <motion.div
         className="absolute inset-0 pointer-events-none overflow-hidden z-0"
-        style={{ y: bgY, willChange: 'transform' }}
+        style={{ y: bgY }}
       >
         <div
-          className="absolute -top-1/4 -right-1/4 w-[120%] h-[120%] opacity-[0.04] blur-3xl scale-125 pointer-events-none bg-cover bg-center filter saturate-200"
+          className="hidden md:block absolute -top-1/4 -right-1/4 w-[120%] h-[120%] opacity-[0.04] blur-3xl scale-125 pointer-events-none bg-cover bg-center filter saturate-200"
           style={{ backgroundImage: `url(${personalInfo.profileImage})` }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0B0B0F]/30 to-[#0B0B0F]/80 pointer-events-none" />
@@ -73,12 +76,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ activeSection }) => {
 
       {/* Hero Ambient Radial Spotlights */}
       <motion.div
-        className="absolute top-1/4 left-1/4 w-[420px] h-[420px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none animate-pulse-glow"
-        style={{ y: glowY, willChange: 'transform' }}
+        className="hidden md:block absolute top-1/4 left-1/4 w-[420px] h-[420px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none animate-pulse-glow"
+        style={{ y: glowY }}
       />
       <motion.div
-        className="absolute bottom-1/4 right-1/4 w-[420px] h-[420px] bg-purple-500/10 rounded-full blur-[140px] pointer-events-none animate-pulse-glow"
-        style={{ y: glowY, willChange: 'transform' }}
+        className="hidden md:block absolute bottom-1/4 right-1/4 w-[420px] h-[420px] bg-purple-500/10 rounded-full blur-[140px] pointer-events-none animate-pulse-glow"
+        style={{ y: glowY }}
       />
 
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center justify-items-center z-10">
@@ -232,13 +235,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ activeSection }) => {
 
         {/* Right Column: 3D Developer Access ID Card */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 30 }}
+          initial={{ opacity: 0, scale: 0.9, y: isMobile ? 16 : 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.9, ease: 'easeOut' }}
           className="lg:col-span-6 flex items-center justify-center relative mt-6 lg:mt-0 w-full"
         >
           {/* Ambient Glow Aura */}
-          <div className="absolute w-80 h-80 sm:w-[420px] sm:h-[420px] rounded-full bg-gradient-to-tr from-cyan-500/30 via-blue-500/20 to-purple-500/30 blur-3xl pointer-events-none animate-pulse" />
+          <div className="absolute w-56 h-56 sm:w-[420px] sm:h-[420px] rounded-full bg-gradient-to-tr from-cyan-500/30 via-blue-500/20 to-purple-500/30 blur-2xl sm:blur-3xl pointer-events-none sm:animate-pulse" />
 
           {/* 3D Developer Access ID Card */}
           <ProfileIdCard

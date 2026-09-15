@@ -10,7 +10,7 @@ export const ExperienceSection: React.FC = () => {
       className="py-24 relative px-4 sm:px-8 z-10 bg-gradient-to-b from-transparent via-purple-500/[0.015] to-transparent border-t border-white/[0.04]"
     >
       {/* Subtle Ambient Glow */}
-      <div className="absolute top-1/4 -right-20 w-[400px] h-[400px] bg-purple-500/8 rounded-full blur-[140px] pointer-events-none" />
+      <div className="hidden md:block absolute top-1/4 -right-20 w-[400px] h-[400px] bg-purple-500/8 rounded-full blur-[140px] pointer-events-none" />
       <div className="max-w-5xl mx-auto relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">

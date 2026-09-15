@@ -32,7 +32,7 @@ export const CustomCursor: React.FC = () => {
       }
     };
 
-    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', onMouseMove);
   }, []);
 

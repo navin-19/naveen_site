@@ -141,6 +141,8 @@ export const OrbitingSkills: React.FC<OrbitingSkillsProps> = ({
             <img
               src={profileImage}
               alt={name}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover object-top rounded-2xl filter contrast-105 group-hover:scale-105 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none" />

@@ -1,25 +1,39 @@
-import { useState, useEffect } from 'react';
+import { lazy, useState, useEffect } from 'react';
 import type { SkillItem } from './data/skills';
 import { AnimatedBackground } from './components/AnimatedBackground';
 import { CustomCursor } from './components/CustomCursor';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { SkillModal } from './components/SkillModal';
-import { AboutSection } from './components/AboutSection';
-import { SkillsSection } from './components/SkillsSection';
-import { ExperienceSection } from './components/ExperienceSection';
-import { ProjectsSection } from './components/ProjectsSection';
-import { EducationSection } from './components/EducationSection';
-import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
+import { LazySection } from './components/LazySection';
+
+const AboutSection = lazy(() =>
+  import('./components/AboutSection').then((m) => ({ default: m.AboutSection }))
+);
+const SkillsSection = lazy(() =>
+  import('./components/SkillsSection').then((m) => ({ default: m.SkillsSection }))
+);
+const ExperienceSection = lazy(() =>
+  import('./components/ExperienceSection').then((m) => ({ default: m.ExperienceSection }))
+);
+const ProjectsSection = lazy(() =>
+  import('./components/ProjectsSection').then((m) => ({ default: m.ProjectsSection }))
+);
+const EducationSection = lazy(() =>
+  import('./components/EducationSection').then((m) => ({ default: m.EducationSection }))
+);
+const ContactSection = lazy(() =>
+  import('./components/ContactSection').then((m) => ({ default: m.ContactSection }))
+);
 
 export function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [selectedSkill, setSelectedSkill] = useState<SkillItem | null>(null);
 
-  // Active section tracking via IntersectionObserver
+  // Re-scan as lazy sections mount so nav highlighting stays accurate
   useEffect(() => {
-    const sections = document.querySelectorAll('section[id]');
+    const observed = new Set<Element>();
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -31,51 +45,62 @@ export function App() {
       { threshold: 0.25 }
     );
 
-    sections.forEach((sec) => observer.observe(sec));
-    return () => observer.disconnect();
+    const scan = () => {
+      document.querySelectorAll('section[id]').forEach((sec) => {
+        if (!observed.has(sec)) {
+          observer.observe(sec);
+          observed.add(sec);
+        }
+      });
+    };
+
+    scan();
+    const mo = new MutationObserver(scan);
+    const main = document.querySelector('main');
+    if (main) mo.observe(main, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+      mo.disconnect();
+    };
   }, []);
 
   return (
     <div className="min-h-screen bg-[#0B0B0F] text-gray-100 relative overflow-x-hidden selection:bg-cyan-500/30 selection:text-white">
-      {/* Shared Global Animated Background (Site-wide, Fixed Layer) */}
       <AnimatedBackground />
-
-      {/* Custom Mouse Follower */}
       <CustomCursor />
-
-      {/* Translucent Glass Sticky Navigation Bar */}
       <Navbar activeSection={activeSection} />
 
-      {/* Main Content Layout with Seamless Section Transitions */}
       <main className="relative z-10">
-        {/* 1. Hero Section with 3D ID Card & Confetti CTA */}
-        <HeroSection
-          activeSection={activeSection}
-        />
+        <HeroSection activeSection={activeSection} />
 
-        {/* 2. About Section with Subtle Contrast Wash */}
-        <AboutSection />
+        <LazySection minHeight={980}>
+          <AboutSection />
+        </LazySection>
 
-        {/* 3. Skills Section with Clean Translucent Canvas */}
-        <SkillsSection onSelectSkill={(skill) => setSelectedSkill(skill)} />
+        <LazySection minHeight={1400}>
+          <SkillsSection onSelectSkill={(skill) => setSelectedSkill(skill)} />
+        </LazySection>
 
-        {/* 4. Career Experience Timeline with Subtle Accent Wash */}
-        <ExperienceSection />
+        <LazySection minHeight={880}>
+          <ExperienceSection />
+        </LazySection>
 
-        {/* 5. Projects Section with Problem -> Approach -> Outcome Case Studies */}
-        <ProjectsSection />
+        <LazySection minHeight={1280}>
+          <ProjectsSection />
+        </LazySection>
 
-        {/* 6. Education & Certifications with Subtle Accent Wash */}
-        <EducationSection />
+        <LazySection minHeight={1100}>
+          <EducationSection />
+        </LazySection>
 
-        {/* 7. Glossy Contact Section with Direct Channels & Form */}
-        <ContactSection />
+        <LazySection minHeight={980}>
+          <ContactSection />
+        </LazySection>
       </main>
 
-      {/* Footer */}
       <Footer />
 
-      {/* Interactive Skill Detail Modal */}
       <SkillModal
         skill={selectedSkill}
         onClose={() => setSelectedSkill(null)}

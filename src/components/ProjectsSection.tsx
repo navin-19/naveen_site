@@ -110,8 +110,8 @@ export const ProjectsSection: React.FC = () => {
       className="py-24 relative px-4 sm:px-8 z-10 border-t border-white/[0.04] overflow-hidden"
     >
       {/* Ambient Parallax Glows */}
-      <div className="absolute top-1/3 -left-20 w-[420px] h-[420px] bg-cyan-500/8 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-1/3 -right-20 w-[420px] h-[420px] bg-purple-500/8 rounded-full blur-[140px] pointer-events-none" />
+      <div className="hidden md:block absolute top-1/3 -left-20 w-[420px] h-[420px] bg-cyan-500/8 rounded-full blur-[140px] pointer-events-none" />
+      <div className="hidden md:block absolute bottom-1/3 -right-20 w-[420px] h-[420px] bg-purple-500/8 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
@@ -248,6 +248,8 @@ export const ProjectsSection: React.FC = () => {
                         <img
                           src={project.image}
                           alt={project.title}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-95 contrast-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0F] via-[#0B0B0F]/40 to-transparent" />

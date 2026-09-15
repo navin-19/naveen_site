@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useSpring, useMotionValue } from 'framer-motion';
+import { motion, useSpring, useMotionValue, useReducedMotion } from 'framer-motion';
 import { QrCode, MapPin, Mail, User } from 'lucide-react';
+import { useIsMobile } from '../hooks/useMediaQuery';
 
 interface ProfileIdCardProps {
   profileImage: string;
@@ -25,6 +26,8 @@ export const ProfileIdCard: React.FC<ProfileIdCardProps> = ({
   const cardRef = useRef<HTMLDivElement>(null);
   const [glowPos, setGlowPos] = useState({ x: 0, y: 0 });
   const [bounceKey, setBounceKey] = useState(0);
+  const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
 
   // Trigger bounce on activeSection becoming 'home' or custom home-click event
   useEffect(() => {
@@ -94,7 +97,12 @@ export const ProfileIdCard: React.FC<ProfileIdCardProps> = ({
       {/* DROP AND ELASTIC BOUNCE MOTION STAGE */}
       <motion.div
         key={`card-stage-${bounceKey}`}
-        initial={{ y: -650, opacity: 0, rotate: -10, scale: 0.88 }}
+        initial={{
+          y: prefersReducedMotion ? 0 : isMobile ? -180 : -650,
+          opacity: 0,
+          rotate: prefersReducedMotion ? 0 : -10,
+          scale: prefersReducedMotion ? 1 : 0.88,
+        }}
         animate={{ y: 0, opacity: 1, rotate: 0, scale: 1 }}
         transition={{
           type: 'spring',
@@ -103,7 +111,7 @@ export const ProfileIdCard: React.FC<ProfileIdCardProps> = ({
           mass: 1.15,
           delay: 0.05,
         }}
-        drag
+        drag={!isMobile}
         dragConstraints={{ left: -40, right: 40, top: -30, bottom: 30 }}
         dragElastic={0.12}
         style={{
@@ -244,6 +252,9 @@ export const ProfileIdCard: React.FC<ProfileIdCardProps> = ({
           <img
             src={profileImage}
             alt={name}
+            fetchPriority="high"
+            loading="eager"
+            decoding="async"
             className="absolute inset-0 w-full h-full object-cover object-[center_12%] filter contrast-[1.05] brightness-[1.02] pointer-events-none"
           />
 

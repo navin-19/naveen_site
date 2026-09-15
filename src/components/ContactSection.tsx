@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import confetti from 'canvas-confetti';
 import { personalInfo } from '../data/personalInfo';
 import { GithubIcon, LinkedinIcon } from './SocialIcons';
 import {
@@ -50,12 +49,13 @@ export const ContactSection: React.FC = () => {
       setIsSubmitting(false);
       setSubmitted(true);
 
-      // Trigger celebration confetti
-      confetti({
-        particleCount: 120,
-        spread: 80,
-        origin: { y: 0.6 },
-        colors: ['#06B6D4', '#3B82F6', '#8B5CF6', '#10B981'],
+      void import('canvas-confetti').then((mod) => {
+        mod.default({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.6 },
+          colors: ['#06B6D4', '#3B82F6', '#8B5CF6', '#10B981'],
+        });
       });
 
       // Construct mailto fallback
@@ -80,8 +80,8 @@ export const ContactSection: React.FC = () => {
       className="py-24 relative px-4 sm:px-8 z-10 border-t border-white/[0.04]"
     >
       {/* Subtle Ambient Glow Spotlights */}
-      <div className="absolute top-1/4 -left-20 w-[420px] h-[420px] bg-cyan-500/8 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-10 -right-20 w-[420px] h-[420px] bg-purple-500/8 rounded-full blur-[140px] pointer-events-none" />
+      <div className="hidden md:block absolute top-1/4 -left-20 w-[420px] h-[420px] bg-cyan-500/8 rounded-full blur-[140px] pointer-events-none" />
+      <div className="hidden md:block absolute bottom-10 -right-20 w-[420px] h-[420px] bg-purple-500/8 rounded-full blur-[140px] pointer-events-none" />
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">

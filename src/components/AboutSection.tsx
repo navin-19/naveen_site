@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { personalInfo } from '../data/personalInfo';
+import { useIsMobile } from '../hooks/useMediaQuery';
 import {
   UserCheck,
   ShieldCheck,
@@ -19,6 +20,8 @@ import {
 export const AboutSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+  const freezeOrbs = prefersReducedMotion || isMobile;
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -28,12 +31,12 @@ export const AboutSection: React.FC = () => {
   const orbY = useTransform(
     scrollYProgress,
     [0, 1],
-    prefersReducedMotion ? ['0%', '0%'] : ['10%', '-15%']
+    freezeOrbs ? ['0%', '0%'] : ['10%', '-15%']
   );
   const orbY2 = useTransform(
     scrollYProgress,
     [0, 1],
-    prefersReducedMotion ? ['0%', '0%'] : ['-10%', '15%']
+    freezeOrbs ? ['0%', '0%'] : ['-10%', '15%']
   );
 
   const statCards = [
@@ -98,12 +101,12 @@ export const AboutSection: React.FC = () => {
     >
       {/* Soft Ambient Section Glow */}
       <motion.div
-        className="absolute top-1/3 -left-20 w-[420px] h-[420px] bg-cyan-500/8 rounded-full blur-[130px] pointer-events-none"
-        style={{ y: orbY, willChange: 'transform' }}
+        className="hidden md:block absolute top-1/3 -left-20 w-[420px] h-[420px] bg-cyan-500/8 rounded-full blur-[130px] pointer-events-none"
+        style={{ y: orbY }}
       />
       <motion.div
-        className="absolute bottom-10 -right-20 w-[380px] h-[380px] bg-purple-500/8 rounded-full blur-[130px] pointer-events-none"
-        style={{ y: orbY2, willChange: 'transform' }}
+        className="hidden md:block absolute bottom-10 -right-20 w-[380px] h-[380px] bg-purple-500/8 rounded-full blur-[130px] pointer-events-none"
+        style={{ y: orbY2 }}
       />
 
       <div className="max-w-6xl mx-auto">
@@ -135,7 +138,7 @@ export const AboutSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
           {/* Main Summary Container */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: isMobile ? -12 : -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             className="lg:col-span-7 glass-card p-8 rounded-3xl border border-white/10 relative overflow-hidden flex flex-col justify-between"
@@ -195,7 +198,7 @@ export const AboutSection: React.FC = () => {
             {statCards.map((stat, idx) => (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: isMobile ? 12 : 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
@@ -225,7 +228,7 @@ export const AboutSection: React.FC = () => {
           {corePillars.map((pillar, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: isMobile ? 12 : 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
